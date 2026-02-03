@@ -6,7 +6,13 @@
   "author": "",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "rrweb": "^2.0.0-alpha.13",
+    "rrweb-player": "^2.0.0-alpha.13"
   },
   "devDependencies": {
     "vite": "^5.0.0"
