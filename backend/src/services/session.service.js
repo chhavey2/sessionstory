@@ -2,6 +2,7 @@ import Session from "../models/Session.js";
 import Visitor from "../models/Visitor.js";
 import { getVisitorDetails } from "./ipApi.service.js";
 import mongoose from "mongoose";
+import { encodeZon, decodeZon } from "./zon.service.js";
 
 export async function hitSession(sessionId, fp, userId, events, ip, url) {
   try {
@@ -17,10 +18,11 @@ export async function hitSession(sessionId, fp, userId, events, ip, url) {
     }
 
     const session = await Session.findOne({ sessionId });
+    const encodedEvents = events.map((event) => encodeZon(event));
 
     if (session) {
       // Append events if session exists
-      session.events.push(...events);
+      session.events.push(...encodedEvents);
       await session.save();
       return session;
     } else {
@@ -30,7 +32,7 @@ export async function hitSession(sessionId, fp, userId, events, ip, url) {
         visitor: visitorObj._id,
         user: userId,
         url,
-        events,
+        events: encodedEvents,
       });
       return newSession;
     }
@@ -43,7 +45,15 @@ export async function hitSession(sessionId, fp, userId, events, ip, url) {
 export async function getSession(sessionId) {
   try {
     const session = await Session.findOne({ sessionId }).populate("visitor");
-    return session;
+
+    if (!session) return null;
+
+    const sessionObj = session.toObject();
+    if (sessionObj.events) {
+      sessionObj.events = sessionObj.events.map((eventStr) => decodeZon(eventStr));
+    }
+
+    return sessionObj;
   } catch (error) {
     console.error("Error in getSession:", error);
     throw error;

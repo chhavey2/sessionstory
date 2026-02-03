@@ -52,7 +52,7 @@ export const recordSession = async (req, res) => {
   try {
     const { userId } = req.params;
     const { fp } = req.query;
-    const ip = req.clientIp;
+    const ip = req.clientIp || req.ip || "127.0.0.1";
     const { metadata, events } = req.body;
 
     if (!metadata?.sessionId || !userId || !events || !fp) {
