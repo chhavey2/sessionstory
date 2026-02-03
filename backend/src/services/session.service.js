@@ -2,7 +2,8 @@ import Session from "../models/Session.js";
 import Visitor from "../models/Visitor.js";
 import { getVisitorDetails } from "./ipApi.service.js";
 import mongoose from "mongoose";
-import { encodeZon, decodeZon } from "./zon.service.js";
+import { decodeZon } from "./zon.service.js";
+import { compress, decompress } from "./compression.service.js";
 
 export async function hitSession(sessionId, fp, userId, events, ip, url) {
   try {
@@ -18,11 +19,12 @@ export async function hitSession(sessionId, fp, userId, events, ip, url) {
     }
 
     const session = await Session.findOne({ sessionId });
-    const encodedEvents = events.map((event) => encodeZon(event));
+    const compressedBatch = await compress(events);
 
     if (session) {
       // Append events if session exists
-      session.events.push(...encodedEvents);
+      session.events.push(compressedBatch);
+      session.eventCount = (session.eventCount || 0) + events.length;
       await session.save();
       return session;
     } else {
@@ -32,7 +34,8 @@ export async function hitSession(sessionId, fp, userId, events, ip, url) {
         visitor: visitorObj._id,
         user: userId,
         url,
-        events: encodedEvents,
+        events: [compressedBatch],
+        eventCount: events.length,
       });
       return newSession;
     }
@@ -48,12 +51,33 @@ export async function getSession(sessionId) {
 
     if (!session) return null;
 
-    const sessionObj = session.toObject();
-    if (sessionObj.events) {
-      sessionObj.events = sessionObj.events.map((eventStr) => decodeZon(eventStr));
+    const decodedEvents = [];
+    
+    for (const item of session.events) {
+      if (Buffer.isBuffer(item) || (item && item.buffer)) {
+        // Gzip compressed batch
+        const batch = await decompress(item);
+        if (Array.isArray(batch)) decodedEvents.push(...batch);
+      } else if (typeof item === "string") {
+        // Old Zon format
+        try {
+          const decoded = decodeZon(item);
+          if (decoded) decodedEvents.push(decoded);
+        } catch (e) {
+          console.error("Failed to decode Zon event:", e);
+        }
+      } else if (typeof item === "object" && item !== null) {
+        // Raw JSON object (short period where we stored raw)
+        decodedEvents.push(item);
+      }
     }
 
+    // Create a new object to avoid mutating the Mongoose document
+    const sessionObj = session.toObject();
+    sessionObj.events = decodedEvents;
+
     return sessionObj;
+
   } catch (error) {
     console.error("Error in getSession:", error);
     throw error;
@@ -79,7 +103,9 @@ export async function getSessionsByUser2(userId) {
       { 
         $match: { 
           user: new mongoose.Types.ObjectId(userId),
-          $expr: { $gt: [{ $size: "$events" }, 5] }
+          $expr: { 
+            $gt: [{ $ifNull: ["$eventCount", { $size: "$events" }] }, 5] 
+          }
         } 
       },
       { $sort: { createdAt: -1 } },
@@ -98,7 +124,7 @@ export async function getSessionsByUser2(userId) {
           url: 1,
           createdAt: 1,
           updatedAt: 1,
-          eventsLength: { $size: "$events" },
+          eventsLength: { $ifNull: ["$eventCount", { $size: "$events" }] },
           visitor: {
             _id: "$visitor._id",
             fp: "$visitor.fp",
