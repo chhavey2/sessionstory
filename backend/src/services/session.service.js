@@ -2,7 +2,6 @@ import Session from "../models/Session.js";
 import Visitor from "../models/Visitor.js";
 import { getVisitorDetails } from "./ipApi.service.js";
 import mongoose from "mongoose";
-import { decodeZon } from "./zon.service.js";
 import { compress, decompress } from "./compression.service.js";
 
 export async function hitSession(sessionId, fp, userId, events, ip, url) {
@@ -54,15 +53,7 @@ export async function getSession(sessionId) {
     const decodedEvents = [];
     
     for (const item of session.events) {
-      if (typeof item === "string") {
-        // Old Zon format (strings)
-        try {
-          const decoded = decodeZon(item);
-          if (decoded) decodedEvents.push(decoded);
-        } catch (e) {
-          console.error("Failed to decode Zon event:", e);
-        }
-      } else if (typeof item === "object" && item !== null) {
+      if (typeof item === "object" && item !== null) {
         // This could be a Gzip Buffer (from Mongo), a raw JSON object, or a BSON Binary
         if (Buffer.isBuffer(item) || item.buffer || item._bsontype === 'Binary') {
           const batch = await decompress(item);
