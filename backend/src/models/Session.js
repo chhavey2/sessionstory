@@ -6,7 +6,7 @@ const sessionSchema = new mongoose.Schema(
     visitor: { type: mongoose.Schema.Types.ObjectId, ref: "Visitor", required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     url: { type: String },
-    events: { type: [mongoose.Schema.Types.Mixed], default: [] },
+    events: { type: [String], default: [] },
   },
   { timestamps: true },
 );

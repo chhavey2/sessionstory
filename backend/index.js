@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import routes from "./src/routes/routes.js";
 import { swaggerDocs } from "./src/swagger.js";
+import { errorMiddleWare } from "./src/middleware/error.middleWare.js";
+import requestIp from "request-ip";
 
 dotenv.config();
 
@@ -30,6 +32,7 @@ app.use(
 );
 
 app.use(express.json({ limit: "5000mb" }));
+app.use(requestIp.mw());
 
 // Routes
 app.get("/", (req, res) => {
@@ -52,6 +55,9 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+
+app.use(errorMiddleWare);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
