@@ -1,0 +1,20 @@
+{
+  "name": "player",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "rrweb": "^2.0.0-alpha.13",
+    "rrweb-player": "^2.0.0-alpha.13"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
