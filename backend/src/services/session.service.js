@@ -54,12 +54,8 @@ export async function getSession(sessionId) {
     const decodedEvents = [];
     
     for (const item of session.events) {
-      if (Buffer.isBuffer(item) || (item && item.buffer)) {
-        // Gzip compressed batch
-        const batch = await decompress(item);
-        if (Array.isArray(batch)) decodedEvents.push(...batch);
-      } else if (typeof item === "string") {
-        // Old Zon format
+      if (typeof item === "string") {
+        // Old Zon format (strings)
         try {
           const decoded = decodeZon(item);
           if (decoded) decodedEvents.push(decoded);
@@ -67,8 +63,18 @@ export async function getSession(sessionId) {
           console.error("Failed to decode Zon event:", e);
         }
       } else if (typeof item === "object" && item !== null) {
-        // Raw JSON object (short period where we stored raw)
-        decodedEvents.push(item);
+        // This could be a Gzip Buffer (from Mongo), a raw JSON object, or a BSON Binary
+        if (Buffer.isBuffer(item) || item.buffer || item._bsontype === 'Binary') {
+          const batch = await decompress(item);
+          if (Array.isArray(batch)) {
+            decodedEvents.push(...batch);
+          } else if (batch) {
+            decodedEvents.push(batch);
+          }
+        } else {
+          // Raw JSON object
+          decodedEvents.push(item);
+        }
       }
     }
 

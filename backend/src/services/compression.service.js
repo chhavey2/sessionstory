@@ -26,7 +26,29 @@ export async function compress(data) {
  */
 export async function decompress(buffer) {
   try {
-    const decompressed = await gunzip(buffer);
+    if (!buffer) return null;
+
+    // Convert MongoDB Binary or other objects to Node Buffer
+    let input;
+    if (Buffer.isBuffer(buffer)) {
+      input = buffer;
+    } else if (buffer.buffer && Buffer.isBuffer(buffer.buffer)) {
+      input = buffer.buffer;
+    } else {
+      input = Buffer.from(buffer);
+    }
+
+    // Check for Gzip magic bytes (0x1f, 0x8b)
+    if (input.length < 2 || input[0] !== 0x1f || input[1] !== 0x8b) {
+      // Not a Gzip buffer, try to parse as raw JSON in case it was stored incorrectly
+      try {
+        return JSON.parse(input.toString());
+      } catch (e) {
+        return null;
+      }
+    }
+
+    const decompressed = await gunzip(input);
     return JSON.parse(decompressed.toString());
   } catch (error) {
     console.error("Decompression error:", error);
