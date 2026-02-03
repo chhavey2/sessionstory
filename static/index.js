@@ -305,7 +305,7 @@
         log('🆔 Visitor ID:', visitorId);
         
         // Update endpoint with project ID and fingerprint
-        CONFIG.serverEndpoint = 'http://localhost:5001/session/record/' + CONFIG.id + '?fp=' + visitorId;
+        CONFIG.serverEndpoint = 'https://api.sessionstory.co/session/record/' + CONFIG.id + '?fp=' + visitorId;
         
         fingerprintLoaded = true;
         callback();
