@@ -2,14 +2,6 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-function PlayIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-      <polygon points="10 8 16 12 10 16 10 8" />
-    </svg>
-  );
-}
-
 export default function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -36,22 +28,45 @@ export default function Signup() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <div className="auth-header">
-          <div className="auth-logo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <div className="relative flex min-h-screen items-center justify-center p-6">
+      <div
+        className="absolute -left-[100px] -top-[100px] h-[400px] w-[400px] rounded-full bg-[rgba(16,185,129,0.4)] blur-[80px] animate-[float_20s_ease-in-out_infinite]"
+        style={{ animationDelay: '0s' }}
+      />
+      <div
+        className="absolute -bottom-[50px] -right-[50px] h-[300px] w-[300px] rounded-full bg-[rgba(59,130,246,0.3)] blur-[80px] animate-[float_20s_ease-in-out_infinite]"
+        style={{ animationDelay: '-10s' }}
+      />
+
+      <div
+        className="relative z-10 w-full max-w-[440px] rounded-3xl border border-dashed border-white/10 bg-[rgba(255,255,255,0.03)] p-12 shadow-[0_0_0_1px_rgba(255,255,255,0.05)_inset,0_25px_50px_-12px_rgba(0,0,0,0.5)] backdrop-blur-[40px]"
+        style={{ WebkitBackdropFilter: 'blur(40px)' }}
+      >
+        <div
+          className="absolute right-5 top-5 h-[120px] w-[120px] opacity-80"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='none' stroke='rgba(16,185,129,0.06)' stroke-width='1' stroke-dasharray='2 2'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/%3E%3C/svg%3E")`,
+            backgroundSize: '40px 40px',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <div className="mb-9 text-center">
+          <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.4)] before:absolute before:inset-[-2px] before:rounded-2xl before:bg-gradient-to-br before:from-emerald-400 before:to-blue-400 before:opacity-50 before:blur-[10px] before:z-[-1] before:content-['']">
+            <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
               <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" />
             </svg>
           </div>
-          <h1>Create account</h1>
-          <p>Get started with SessionStory</p>
+          <h1 className="mb-2 text-[28px] font-bold tracking-tight bg-gradient-to-br from-white to-white/70 bg-clip-text text-transparent">
+            Create account
+          </h1>
+          <p className="text-[15px] text-white/40">Get started with SessionStory</p>
         </div>
 
         {error && (
-          <div className="auth-error">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <div className="mb-6 flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3.5 text-sm text-red-300">
+            <svg className="h-5 w-5 shrink-0 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
               <line x1="15" y1="9" x2="9" y2="15" />
               <line x1="9" y1="9" x2="15" y2="15" />
@@ -60,9 +75,11 @@ export default function Signup() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="name">Full name</label>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="name" className="text-[13px] font-medium tracking-wide text-white/70">
+              Full name
+            </label>
             <input
               type="text"
               id="name"
@@ -71,11 +88,14 @@ export default function Signup() {
               placeholder="John Doe"
               required
               autoComplete="name"
+              className="rounded-xl border border-white/10 bg-[rgba(255,255,255,0.03)] px-4 py-3.5 text-[15px] text-white transition-all duration-150 placeholder:text-white/25 hover:border-white/15 hover:bg-white/[0.06] focus:border-emerald-500 focus:bg-white/[0.06] focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)] focus:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="text-[13px] font-medium tracking-wide text-white/70">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -84,11 +104,14 @@ export default function Signup() {
               placeholder="you@example.com"
               required
               autoComplete="email"
+              className="rounded-xl border border-white/10 bg-[rgba(255,255,255,0.03)] px-4 py-3.5 text-[15px] text-white transition-all duration-150 placeholder:text-white/25 hover:border-white/15 hover:bg-white/[0.06] focus:border-emerald-500 focus:bg-white/[0.06] focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)] focus:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password" className="text-[13px] font-medium tracking-wide text-white/70">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -97,13 +120,18 @@ export default function Signup() {
               placeholder="••••••••"
               required
               autoComplete="new-password"
+              className="rounded-xl border border-white/10 bg-[rgba(255,255,255,0.03)] px-4 py-3.5 text-[15px] text-white transition-all duration-150 placeholder:text-white/25 hover:border-white/15 hover:bg-white/[0.06] focus:border-emerald-500 focus:bg-white/[0.06] focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)] focus:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
             />
           </div>
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <button
+            type="submit"
+            disabled={loading}
+            className="relative mt-2 flex items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 px-7 py-4 text-[15px] font-semibold tracking-wide text-white transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_10px_40px_rgba(16,185,129,0.4)] disabled:cursor-not-allowed disabled:opacity-60"
+          >
             {loading ? (
               <>
-                <span className="button-spinner"></span>
+                <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
                 Creating account...
               </>
             ) : (
@@ -112,9 +140,12 @@ export default function Signup() {
           </button>
         </form>
 
-        <div className="auth-footer">
+        <div className="mt-7 border-t border-dashed border-white/10 pt-7 text-center text-sm text-white/40">
           <p>
-            Already have an account? <Link to="/login">Sign in</Link>
+            Already have an account?{' '}
+            <Link to="/login" className="font-semibold text-emerald-400 hover:text-emerald-300">
+              Sign in
+            </Link>
           </p>
         </div>
       </div>

@@ -7,8 +7,8 @@ export default function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="loading-screen">
-        <div className="spinner"></div>
+      <div className="flex min-h-screen flex-col items-center justify-center gap-5 text-white/70">
+        <div className="h-11 w-11 animate-spin rounded-full border-2 border-white/10 border-t-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]" />
         <p>Loading...</p>
       </div>
     );

@@ -7,8 +7,6 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Sessions from './pages/Sessions';
 import Setup from './pages/Setup';
-import './App.css';
-
 function App() {
   return (
     <AuthProvider>
