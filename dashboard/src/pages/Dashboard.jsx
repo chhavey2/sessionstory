@@ -50,6 +50,19 @@ export default function Dashboard() {
     });
   };
 
+  const formatLocation = (visitor) => {
+    if (!visitor) return 'Unknown';
+    const city = visitor.city || visitor.region;
+    const country = visitor.country;
+    if (city && country) return `${city}, ${country}`;
+    if (city) return city;
+    if (country) return country;
+    return 'Unknown';
+  };
+
+  const getEventCount = (session) =>
+    session.eventsLength ?? session.eventCount ?? session.events?.length ?? 0;
+
   if (loading) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-5 text-white/70">
@@ -151,6 +164,7 @@ export default function Dashboard() {
                   <th className="border-b border-dashed border-white/10 bg-white/[0.02] px-6 py-4 text-left text-[11px] font-semibold uppercase tracking-widest text-white/40">Session</th>
                   <th className="border-b border-dashed border-white/10 bg-white/[0.02] px-6 py-4 text-left text-[11px] font-semibold uppercase tracking-widest text-white/40">Visitor</th>
                   <th className="border-b border-dashed border-white/10 bg-white/[0.02] px-6 py-4 text-left text-[11px] font-semibold uppercase tracking-widest text-white/40">Location</th>
+                  <th className="border-b border-dashed border-white/10 bg-white/[0.02] px-6 py-4 text-left text-[11px] font-semibold uppercase tracking-widest text-white/40">Events</th>
                   <th className="border-b border-dashed border-white/10 bg-white/[0.02] px-6 py-4 text-left text-[11px] font-semibold uppercase tracking-widest text-white/40">Date</th>
                   <th className="border-b border-dashed border-white/10 bg-white/[0.02] px-6 py-4 text-left text-[11px] font-semibold uppercase tracking-widest text-white/40"></th>
                 </tr>
@@ -171,9 +185,12 @@ export default function Dashboard() {
                       </span>
                     </td>
                     <td className="border-b border-white/[0.04] px-6 py-4">
-                      <span className="inline-flex rounded-full border border-dashed border-white/10 bg-[rgba(255,255,255,0.03)] px-3 py-1.5 text-xs font-medium text-white/70">
-                        {session.visitor?.city || 'Unknown'}
+                      <span className="text-xs font-medium text-white/70">
+                        {formatLocation(session.visitor)}
                       </span>
+                    </td>
+                    <td className="border-b border-white/[0.04] px-6 py-4 text-xs font-medium text-white/70">
+                      {getEventCount(session)} events
                     </td>
                     <td className="border-b border-white/[0.04] px-6 py-4 text-white/70">{formatDate(session.createdAt)}</td>
                     <td className="border-b border-white/[0.04] px-6 py-4">

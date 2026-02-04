@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
@@ -12,6 +12,8 @@ export default function Sessions() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('newest');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     if (user?._id) {
@@ -22,6 +24,16 @@ export default function Sessions() {
   useEffect(() => {
     filterAndSortSessions();
   }, [sessions, searchTerm, sortBy]);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const loadSessions = async () => {
     try {
@@ -51,12 +63,17 @@ export default function Sessions() {
       );
     }
 
+    const getEventCount = (s) => s.eventsLength ?? s.eventCount ?? s.events?.length ?? 0;
     result.sort((a, b) => {
       switch (sortBy) {
         case 'newest':
           return new Date(b.createdAt) - new Date(a.createdAt);
         case 'oldest':
           return new Date(a.createdAt) - new Date(b.createdAt);
+        case 'most_events':
+          return getEventCount(b) - getEventCount(a);
+        case 'least_events':
+          return getEventCount(a) - getEventCount(b);
         default:
           return 0;
       }
@@ -64,6 +81,13 @@ export default function Sessions() {
 
     setFilteredSessions(result);
   };
+
+  const sortOptions = [
+    { value: 'newest', label: 'Newest first' },
+    { value: 'oldest', label: 'Oldest first' },
+    { value: 'most_events', label: 'Most events' },
+    { value: 'least_events', label: 'Least events' },
+  ];
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -117,41 +141,67 @@ export default function Sessions() {
         </div>
       </header>
 
-      <div className="relative z-10 flex flex-col items-stretch gap-4 px-6 pb-6 sm:flex-row md:px-12 md:pb-8">
+      <div className={`relative flex flex-col items-stretch gap-4 px-6 pb-6 sm:flex-row md:px-12 md:pb-8 ${dropdownOpen ? 'z-30' : 'z-10'}`}>
         <div className="relative max-w-[400px] flex-1">
-          <svg
-            className="absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-white/40"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="M21 21l-4.35-4.35" />
-          </svg>
+          <span className="pointer-events-none absolute left-4 top-1/2 z-10 flex h-5 w-5 -translate-y-1/2 items-center justify-center text-emerald-400" aria-hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 shrink-0" aria-hidden>
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+          </span>
           <input
             type="text"
             placeholder="Search by session ID, visitor, location or URL..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-full border border-white/10 bg-[rgba(255,255,255,0.03)] py-3.5 pl-12 pr-5 text-sm text-white backdrop-blur-[20px] transition-all duration-150 placeholder:text-white/25 hover:border-white/15 focus:border-emerald-500 focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)]"
+            className="relative w-full rounded-xl border border-dashed border-white/10 bg-[rgba(255,255,255,0.03)] py-3.5 pl-12 pr-5 text-sm text-white backdrop-blur-[20px] transition-all duration-150 placeholder:text-white/25 hover:border-white/15 focus:border-emerald-500 focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)]"
             style={{ WebkitBackdropFilter: 'blur(20px)' }}
           />
         </div>
 
-        <div className="sort-dropdown">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="cursor-pointer appearance-none rounded-full border border-white/10 bg-[rgba(255,255,255,0.03)] py-3.5 pl-5 pr-11 text-sm text-white backdrop-blur-[20px] transition-all duration-150 hover:border-white/15 focus:border-emerald-500 focus:outline-none bg-[length:16px_16px] bg-[right_16px_center] bg-no-repeat"
-            style={{
-              WebkitBackdropFilter: 'blur(20px)',
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
-            }}
+        <div className="relative flex min-w-0 sm:min-w-[200px]" ref={dropdownRef}>
+          <button
+            type="button"
+            onClick={() => setDropdownOpen((o) => !o)}
+            className="flex w-full items-center gap-2 rounded-xl border border-dashed border-white/10 bg-[rgba(255,255,255,0.03)] py-3.5 pl-4 pr-10 text-left text-sm text-white backdrop-blur-[20px] transition-all duration-150 hover:border-white/15 focus:border-emerald-500 focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)]"
+            style={{ WebkitBackdropFilter: 'blur(20px)' }}
           >
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-          </select>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5 shrink-0 text-white/60">
+              <path d="M7 16V4m0 0L3 8m4-4l4 4m8 0V20m0 0l4-4m-4 4l-4-4" />
+            </svg>
+            <span className="min-w-0 truncate">
+              {sortOptions.find((o) => o.value === sortBy)?.label ?? 'Sort'}
+            </span>
+            <span className="absolute right-3 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center text-white/50 transition-transform duration-200">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`h-5 w-5 ${dropdownOpen ? 'rotate-180' : ''}`}>
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+          </button>
+          {dropdownOpen && (
+            <div
+              className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-xl border border-dashed border-white/10 bg-[rgba(15,16,25,0.98)] py-1 shadow-xl backdrop-blur-[20px]"
+              style={{ WebkitBackdropFilter: 'blur(20px)' }}
+            >
+              {sortOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    setSortBy(opt.value);
+                    setDropdownOpen(false);
+                  }}
+                  className={`block w-full px-4 py-2.5 text-left text-sm transition-colors ${
+                    sortBy === opt.value
+                      ? 'bg-[rgba(16,185,129,0.15)] text-emerald-400'
+                      : 'text-white/80 hover:bg-white/[0.06] hover:text-white'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
