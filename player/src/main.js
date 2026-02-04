@@ -9,11 +9,17 @@ const TRANSLATE_API_URL = import.meta.env.VITE_TRANSLATE_API_URL || API_BASE_URL
 // DOM Elements
 const replayContainer = document.getElementById('replayContainer');
 const sessionStatus = document.getElementById('sessionStatus');
+const sessionInfoEl = document.getElementById('sessionInfo');
+const sessionUrlLinkEl = document.getElementById('sessionUrlLink');
+const sessionTimeEl = document.getElementById('sessionTime');
 const summaryLoading = document.getElementById('summaryLoading');
 const summaryText = document.getElementById('summaryText');
 const summaryError = document.getElementById('summaryError');
 const languageSelect = document.getElementById('languageSelect');
 const retrySummary = document.getElementById('retrySummary');
+const languageDropdownTrigger = document.getElementById('languageDropdownTrigger');
+const languageDropdownList = document.getElementById('languageDropdownList');
+const languageDropdownLabel = document.getElementById('languageDropdownLabel');
 
 // State
 let currentPlayer = null;
@@ -242,7 +248,39 @@ async function initPlayer() {
 
     currentEvents = data.events;
     sessionStatus.innerText = `${currentEvents.length} events`;
-    
+
+    if (sessionInfoEl) {
+      const hasUrl = data.url && sessionUrlLinkEl;
+      const hasTime = data.createdAt && sessionTimeEl;
+      if (hasUrl || hasTime) {
+        sessionInfoEl.style.display = 'flex';
+        const urlRow = sessionUrlLinkEl && sessionUrlLinkEl.closest('.session-info-url');
+        const timeRow = sessionTimeEl && sessionTimeEl.closest('.session-info-time');
+        const sepEl = document.getElementById('sessionInfoSep');
+        if (hasUrl && urlRow) {
+          try {
+            const u = new URL(data.url);
+            const displayUrl = u.hostname + (u.pathname !== '/' ? u.pathname : '');
+            sessionUrlLinkEl.href = data.url;
+            sessionUrlLinkEl.title = data.url;
+            sessionUrlLinkEl.textContent = displayUrl.length > 40 ? displayUrl.slice(0, 40) + '…' : displayUrl;
+            urlRow.style.display = 'inline-flex';
+          } catch (_) {
+            sessionUrlLinkEl.href = data.url;
+            sessionUrlLinkEl.textContent = data.url.length > 40 ? data.url.slice(0, 40) + '…' : data.url;
+            urlRow.style.display = 'inline-flex';
+          }
+        } else if (urlRow) urlRow.style.display = 'none';
+        if (hasTime && timeRow) {
+          sessionTimeEl.textContent = new Date(data.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+          timeRow.style.display = 'inline-flex';
+        } else if (timeRow) timeRow.style.display = 'none';
+        if (sepEl) sepEl.style.display = hasUrl && hasTime ? 'inline' : 'none';
+      } else {
+        sessionInfoEl.style.display = 'none';
+      }
+    }
+
     createPlayer(currentEvents);
     
     // Fetch AI summary
@@ -252,6 +290,7 @@ async function initPlayer() {
     console.error('Error initializing player:', error);
     sessionStatus.innerText = 'Error loading session';
     replayContainer.innerHTML = `<p class="error-message">Error: ${error.message}</p>`;
+    if (sessionInfoEl) sessionInfoEl.style.display = 'none';
   }
 }
 
@@ -263,6 +302,7 @@ function loadFromLocalStorage() {
       currentEvents = JSON.parse(savedSession);
       if (currentEvents.length > 0) {
         sessionStatus.innerText = 'Loaded from Local Storage';
+        if (sessionInfoEl) sessionInfoEl.style.display = 'none';
         createPlayer(currentEvents);
       } else {
         throw new Error('Empty session in local storage');
@@ -275,13 +315,63 @@ function loadFromLocalStorage() {
     sessionStatus.innerText = 'No session found';
     replayContainer.innerHTML = '<p class="error-message">No session ID provided in URL and no local session found.</p>';
   }
+  if (sessionInfoEl) sessionInfoEl.style.display = 'none';
 }
+
+// Custom language dropdown: open/close and sync with hidden select
+function updateLanguageDropdownLabel(value) {
+  const option = languageSelect.querySelector(`option[value="${value}"]`);
+  if (languageDropdownLabel && option) languageDropdownLabel.textContent = option.textContent;
+  if (languageDropdownList) {
+    languageDropdownList.querySelectorAll('.language-option').forEach((el) => {
+      el.classList.toggle('selected', el.getAttribute('data-value') === value);
+    });
+  }
+}
+
+function closeLanguageDropdown() {
+  if (languageDropdownTrigger) languageDropdownTrigger.setAttribute('aria-expanded', 'false');
+  if (languageDropdownList) languageDropdownList.classList.add('hidden');
+}
+
+if (languageDropdownTrigger && languageDropdownList) {
+  languageDropdownTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    const isOpen = languageDropdownTrigger.getAttribute('aria-expanded') === 'true';
+    if (isOpen) {
+      closeLanguageDropdown();
+    } else {
+      languageDropdownTrigger.setAttribute('aria-expanded', 'true');
+      languageDropdownList.classList.remove('hidden');
+    }
+  });
+
+  languageDropdownList.querySelectorAll('.language-option').forEach((opt) => {
+    opt.addEventListener('click', () => {
+      const value = opt.getAttribute('data-value');
+      if (value && languageSelect.value !== value) {
+        languageSelect.value = value;
+        languageSelect.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      updateLanguageDropdownLabel(value);
+      closeLanguageDropdown();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.language-dropdown')) closeLanguageDropdown();
+  });
+}
+
+// Sync dropdown label when select value is set programmatically
+updateLanguageDropdownLabel(languageSelect?.value || 'en');
 
 // Event Listeners
 
 // Language change handler
 languageSelect.addEventListener('change', async (e) => {
   currentLanguage = e.target.value;
+  updateLanguageDropdownLabel(currentLanguage);
   if (originalSummary) {
     await translateSummary(currentLanguage);
   }
