@@ -44,7 +44,10 @@ export default function Sessions() {
         (session) =>
           session.sessionId?.toLowerCase().includes(term) ||
           session.visitor?.fingerprint?.toLowerCase().includes(term) ||
-          session.visitor?.city?.toLowerCase().includes(term),
+          session.visitor?.fp?.toLowerCase().includes(term) ||
+          session.visitor?.city?.toLowerCase().includes(term) ||
+          session.visitor?.country?.toLowerCase().includes(term) ||
+          session.url?.toLowerCase().includes(term),
       );
     }
 
@@ -70,6 +73,26 @@ export default function Sessions() {
       hour: '2-digit',
       minute: '2-digit',
     });
+  };
+
+  const formatLocation = (visitor) => {
+    if (!visitor) return 'Unknown';
+    const city = visitor.city || visitor.region;
+    const country = visitor.country;
+    if (city && country) return `${city}, ${country}`;
+    if (city) return city;
+    if (country) return country;
+    return 'Unknown';
+  };
+
+  const formatUrl = (url) => {
+    if (!url) return '—';
+    try {
+      const u = new URL(url);
+      return u.hostname + u.pathname;
+    } catch {
+      return url.length > 50 ? url.slice(0, 50) + '…' : url;
+    }
   };
 
   if (loading) {
@@ -108,7 +131,7 @@ export default function Sessions() {
           </svg>
           <input
             type="text"
-            placeholder="Search by session ID or visitor..."
+            placeholder="Search by session ID, visitor, location or URL..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full rounded-full border border-white/10 bg-[rgba(255,255,255,0.03)] py-3.5 pl-12 pr-5 text-sm text-white backdrop-blur-[20px] transition-all duration-150 placeholder:text-white/25 hover:border-white/15 focus:border-emerald-500 focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)]"
@@ -193,22 +216,34 @@ export default function Sessions() {
                     <line x1="12" y1="17" x2="12" y2="21" />
                   </svg>
                 </div>
-                <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover:opacity-100">
-                  <svg className="h-14 w-14 text-emerald-400 drop-shadow-[0_0_20px_rgba(16,185,129,0.4)]" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                  </svg>
-                </div>
               </div>
 
               <div className="p-6">
-                <div className="mb-5 flex items-center justify-between">
+                <div className="mb-4 flex items-center justify-between">
                   <code className="text-[11px]">{session.sessionId?.slice(-12) || 'N/A'}</code>
-                  <span className="text-xs text-white/40">{formatDate(session.createdAt)}</span>
+                  <span className="text-xs font-medium text-white/50">
+                    {session.eventsLength ?? session.eventCount ?? session.events?.length ?? 0} events
+                  </span>
+                </div>
+                <div className="mb-4 flex items-center justify-between text-xs text-white/40">
+                  <span>{formatDate(session.createdAt)}</span>
                 </div>
 
-                <div className="flex gap-6">
+                {session.url && (
+                  <div className="mb-4 flex items-start gap-2 text-[13px] text-white/60">
+                    <svg className="mt-0.5 h-4 w-4 shrink-0 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                    </svg>
+                    <span className="truncate" title={session.url}>
+                      {formatUrl(session.url)}
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap gap-4">
                   <div className="flex items-center gap-2 text-[13px] font-medium text-white/70">
-                    <svg className="h-4 w-4 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="h-4 w-4 shrink-0 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
                       <circle cx="12" cy="7" r="4" />
                     </svg>
@@ -219,11 +254,11 @@ export default function Sessions() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-[13px] font-medium text-white/70">
-                    <svg className="h-4 w-4 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="h-4 w-4 shrink-0 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                       <circle cx="12" cy="10" r="3" />
                     </svg>
-                    <span>{session.visitor?.city || 'Unknown'}</span>
+                    <span>{formatLocation(session.visitor)}</span>
                   </div>
                 </div>
               </div>
