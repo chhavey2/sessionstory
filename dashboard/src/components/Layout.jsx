@@ -23,11 +23,13 @@ export default function Layout() {
       >
         <div className="border-b border-dashed border-white/10 px-6 py-7">
           <div className="flex items-center gap-3.5 text-xl font-bold tracking-tight text-white">
-            <img
-              className="h-9 w-9 rounded-lg object-contain"
-              src="/logo.png"
-              alt=""
-            />
+            <div className='bg-[#0DAF7B] p-2 rounded-xl shadow-[0_0_25px_rgba(13,175,123,0.8),0_0_50px_rgba(13,175,123,0.4)]'>
+              <img
+                className="h-6 w-6 object-contain brightness-0 invert"
+                src="/logo2.svg"
+                alt=""
+                />
+            </div>
             <span>
               Session<span className="text-[#0DAF7B]">Story</span>
             </span>

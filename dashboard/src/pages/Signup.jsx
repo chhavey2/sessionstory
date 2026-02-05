@@ -52,11 +52,12 @@ export default function Signup() {
         />
 
         <div className="mb-9 text-center">
-          <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.4)] before:absolute before:inset-[-2px] before:rounded-2xl before:bg-gradient-to-br before:from-emerald-400 before:to-blue-400 before:opacity-50 before:blur-[10px] before:z-[-1] before:content-['']">
-            <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" />
-            </svg>
+          <div className='mx-auto mb-6 w-fit bg-[#0DAF7B] p-3 rounded-2xl shadow-[0_0_25px_rgba(13,175,123,0.8),0_0_50px_rgba(13,175,123,0.4)]'>
+            <img
+              className="h-9 w-9 object-contain brightness-0 invert"
+              src="/logo2.svg"
+              alt=""
+            />
           </div>
           <h1 className="mb-2 text-[28px] font-bold tracking-tight bg-gradient-to-br from-white to-white/70 bg-clip-text text-transparent">
             Create account
