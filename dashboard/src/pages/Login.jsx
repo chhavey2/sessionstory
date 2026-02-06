@@ -3,24 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo1 from '../assets/Logo1.svg';
+import PatternText from '../components/PatternText';
 
 const SWIPE_THRESHOLD = 50;
-
-function PatternText({ text, className = '' }) {
-  return (
-    <p
-      data-shadow={text}
-      className={`relative inline-block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-foreground
-        [text-shadow:0.02em_0.02em_0_var(--background)]
-        after:absolute after:top-[0.05em] after:left-[0.05em] after:-z-10 after:content-[attr(data-shadow)]
-        after:bg-[length:0.05em_0.05em] after:bg-clip-text after:text-transparent after:[text-shadow:none]
-        after:bg-[linear-gradient(45deg,transparent_45%,var(--foreground)_45%,var(--foreground)_55%,transparent_0)]
-        after:animate-shadanim ${className}`}
-    >
-      {text}
-    </p>
-  );
-}
 
 export default function Login() {
   const { signin, signup } = useAuth();
@@ -32,22 +17,15 @@ export default function Login() {
   const showSignup = location.state?.showSignup === true;
 
   const [activeIndex, setActiveIndex] = useState(showSignup ? 1 : 0);
-  const [isDragging, setIsDragging] = useState(false);
-  
-  // Login state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
-  
-  // Signup state
   const [signupName, setSignupName] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [signupError, setSignupError] = useState('');
   const [signupLoading, setSignupLoading] = useState(false);
-
-  // Subtitle carousel
   const subtitles = [
     'Watch real user sessions as they happen. See every click, scroll, and interaction so you can reproduce bugs and understand exactly what went wrong.',
     'Stop guessing why users churn or where they get stuck. SessionStory turns session replays into clear insights so you can fix what matters.',
@@ -100,7 +78,6 @@ export default function Login() {
     } else if (offset.x > SWIPE_THRESHOLD || swipe > 1000) {
       setActiveIndex((prev) => (prev - 1 + 2) % 2);
     }
-    setIsDragging(false);
   };
 
   const cards = [
@@ -354,11 +331,11 @@ export default function Login() {
           {/* Left side - Title, subtitle and features */}
           <div className="text-center lg:text-left order-2 lg:order-1 flex-shrink-0 space-y-6">
             <div>
-              <span className="inline-block rounded-full border border-border/60 bg-card/40 px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground/90 backdrop-blur-sm">
+              <span className="inline-block rounded-full border border-border/60 bg-card/25 px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground/90 backdrop-blur-sm">
                 Session replay & analytics
               </span>
             </div>
-            <PatternText text="SessionStory" />
+            <PatternText text="SessionStory" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl" />
             <div className="text-center mx-auto max-w-lg min-h-[4.5rem] flex flex-col justify-center">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.p
@@ -414,7 +391,6 @@ export default function Login() {
                     drag={isTopCard ? "x" : false}
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.7}
-                    onDragStart={() => setIsDragging(true)}
                     onDragEnd={handleDragEnd}
                     whileDrag={{ scale: 1.02, cursor: "grabbing" }}
                     className={`absolute w-full inset-shadow-2xs ring-background rounded-2xl border border-border bg-card p-6 shadow-lg shadow-zinc-950/15 ring-1
