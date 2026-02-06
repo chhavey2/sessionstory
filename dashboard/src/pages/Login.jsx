@@ -1,147 +1,435 @@
-import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import Logo1 from '../assets/Logo1.svg';
+import PatternText from '../components/PatternText';
+
+const SWIPE_THRESHOLD = 50;
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const { signin } = useAuth();
+  const { signin, signup } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || '/';
   const loggedOut = location.state?.loggedOut === true;
+  const showSignup = location.state?.showSignup === true;
 
-  const handleSubmit = async (e) => {
+  const [activeIndex, setActiveIndex] = useState(showSignup ? 1 : 0);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [signupName, setSignupName] = useState('');
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupPassword, setSignupPassword] = useState('');
+  const [signupError, setSignupError] = useState('');
+  const [signupLoading, setSignupLoading] = useState(false);
+  const subtitles = [
+    'Watch real user sessions as they happen. See every click, scroll, and interaction so you can reproduce bugs and understand exactly what went wrong.',
+    'Stop guessing why users churn or where they get stuck. SessionStory turns session replays into clear insights so you can fix what matters.',
+    'From first visit to conversion—see the full journey. Debug faster, support better, and build a product your users actually love.',
+  ];
+  const [subtitleIndex, setSubtitleIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSubtitleIndex((i) => (i + 1) % subtitles.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, [subtitles.length]);
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
+    setLoginError('');
+    setLoginLoading(true);
 
     try {
-      await signin(email, password);
+      await signin(loginEmail, loginPassword);
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.message || 'Failed to sign in');
+      setLoginError(err.message || 'Failed to sign in');
     } finally {
-      setLoading(false);
+      setLoginLoading(false);
     }
   };
 
-  return (
-    <div className="relative flex min-h-screen items-center justify-center p-6">
-      {/* Floating orbs */}
-      <div
-        className="absolute -left-[100px] -top-[100px] h-[400px] w-[400px] rounded-full bg-[rgba(16,185,129,0.4)] blur-[80px] animate-[float_20s_ease-in-out_infinite]"
-        style={{ animationDelay: '0s' }}
-      />
-      <div
-        className="absolute -bottom-[50px] -right-[50px] h-[300px] w-[300px] rounded-full bg-[rgba(59,130,246,0.3)] blur-[80px] animate-[float_20s_ease-in-out_infinite]"
-        style={{ animationDelay: '-10s' }}
-      />
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    setSignupError('');
+    setSignupLoading(true);
 
-      <div
-        className="relative z-10 w-full max-w-[440px] rounded-3xl border border-dashed border-white/10 bg-[rgba(255,255,255,0.03)] p-12 shadow-[0_0_0_1px_rgba(255,255,255,0.05)_inset,0_25px_50px_-12px_rgba(0,0,0,0.5)] backdrop-blur-[40px]"
-        style={{ WebkitBackdropFilter: 'blur(40px)' }}
-      >
-        <div
-          className="absolute right-5 top-5 h-[120px] w-[120px] opacity-80"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='none' stroke='rgba(16,185,129,0.06)' stroke-width='1' stroke-dasharray='2 2'%3E%3Cpolygon points='5 3 19 12 5 21 5 3'/%3E%3C/svg%3E")`,
-            backgroundSize: '40px 40px',
-            pointerEvents: 'none',
-          }}
-        />
+    try {
+      await signup(signupName, signupEmail, signupPassword);
+      navigate('/', { replace: true });
+    } catch (err) {
+      setSignupError(err.message || 'Failed to create account');
+    } finally {
+      setSignupLoading(false);
+    }
+  };
 
-        <div className="mb-9 text-center">
-          <div className='mx-auto mb-6 w-fit bg-[#0DAF7B] p-3 rounded-2xl shadow-[0_0_25px_rgba(13,175,123,0.8),0_0_50px_rgba(13,175,123,0.4)]'>
-            <img
-              className="h-9 w-9 object-contain brightness-0 invert"
-              src="/logo2.svg"
-              alt=""
-            />
-          </div>
-          <h1 className="mb-2 text-[28px] font-bold tracking-tight bg-gradient-to-br from-white to-white/70 bg-clip-text text-transparent">
-            Welcome back
-          </h1>
-          <p className="text-[15px] text-white/40">Sign in to your SessionStory account</p>
+  const handleDragEnd = (event, info) => {
+    const { offset, velocity } = info;
+    const swipe = Math.abs(offset.x) * velocity.x;
+
+    if (offset.x < -SWIPE_THRESHOLD || swipe < -1000) {
+      setActiveIndex((prev) => (prev + 1) % 2);
+    } else if (offset.x > SWIPE_THRESHOLD || swipe > 1000) {
+      setActiveIndex((prev) => (prev - 1 + 2) % 2);
+    }
+  };
+
+  const cards = [
+    { id: 'login', title: 'Login' },
+    { id: 'signup', title: 'Sign Up' }
+  ];
+
+  const getStackOrder = () => {
+    const reordered = [];
+    for (let i = 0; i < cards.length; i++) {
+      const index = (activeIndex + i) % cards.length;
+      reordered.push({ ...cards[index], stackPosition: i });
+    }
+    return reordered.reverse();
+  };
+
+  const getLayoutStyles = (stackPosition) => ({
+    top: stackPosition * 8,
+    left: stackPosition * 8,
+    zIndex: cards.length - stackPosition,
+    rotate: (stackPosition - 0.5) * 2,
+  });
+
+  const displayCards = getStackOrder();
+
+  const renderLoginCard = (isTopCard) => (
+    <>
+      <div className="mb-5 text-center">
+        <div className="mx-auto mb-4 w-fit">
+          <img src={Logo1} alt="" className="h-10 w-auto object-contain" />
+        </div>
+        <h1 className="mb-1 text-xl font-bold tracking-tight text-foreground">
+          Welcome back
+        </h1>
+        <p className="text-xs text-muted-foreground">Continue reviewing your sessions.</p>
+      </div>
+
+      {loggedOut && (
+        <div className="mb-4 rounded-lg border border-border bg-secondary px-3 py-2 text-xs text-foreground">
+          You have been signed out successfully.
+        </div>
+      )}
+
+      {loginError && (
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+          <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="15" y1="9" x2="9" y2="15" />
+            <line x1="9" y1="9" x2="15" y2="15" />
+          </svg>
+          {loginError}
+        </div>
+      )}
+
+      <form onSubmit={handleLoginSubmit} className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="login-email" className="text-[11px] font-medium tracking-wide text-foreground/70">
+            Email
+          </label>
+          <input
+            type="email"
+            id="login-email"
+            value={loginEmail}
+            onChange={(e) => setLoginEmail(e.target.value)}
+            placeholder="you@example.com"
+            required
+            autoComplete="email"
+            className="rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground transition-all duration-150 placeholder:text-muted-foreground/50 hover:border-foreground/20 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-ring/20"
+          />
         </div>
 
-        {loggedOut && (
-          <div className="mb-6 rounded-xl border border-dashed border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
-            You have been signed out successfully.
-          </div>
-        )}
+        <div className="flex flex-col gap-1">
+          <label htmlFor="login-password" className="text-[11px] font-medium tracking-wide text-foreground/70">
+            Password
+          </label>
+          <input
+            type="password"
+            id="login-password"
+            value={loginPassword}
+            onChange={(e) => setLoginPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+            autoComplete="current-password"
+            className="rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground transition-all duration-150 placeholder:text-muted-foreground/50 hover:border-foreground/20 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-ring/20"
+          />
+        </div>
 
-        {error && (
-          <div className="mb-6 flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3.5 text-sm text-red-300">
-            <svg className="h-5 w-5 shrink-0 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="15" y1="9" x2="9" y2="15" />
-              <line x1="9" y1="9" x2="15" y2="15" />
-            </svg>
-            {error}
-          </div>
-        )}
+        <button
+          type="submit"
+          disabled={loginLoading}
+          className="mt-1 flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {loginLoading ? (
+            <>
+              <span className="mr-2 inline-block h-3 w-3 animate-spin rounded-full border-2 border-primary-foreground/20 border-t-primary-foreground" />
+              Signing in...
+            </>
+          ) : (
+            'Sign in'
+          )}
+        </button>
+      </form>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-[13px] font-medium tracking-wide text-white/70">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              autoComplete="email"
-              className="rounded-xl border border-white/10 bg-[rgba(255,255,255,0.03)] px-4 py-3.5 text-[15px] text-white transition-all duration-150 placeholder:text-white/25 hover:border-white/15 hover:bg-white/[0.06] focus:border-emerald-500 focus:bg-white/[0.06] focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)] focus:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password" className="text-[13px] font-medium tracking-wide text-white/70">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              autoComplete="current-password"
-              className="rounded-xl border border-white/10 bg-[rgba(255,255,255,0.03)] px-4 py-3.5 text-[15px] text-white transition-all duration-150 placeholder:text-white/25 hover:border-white/15 hover:bg-white/[0.06] focus:border-emerald-500 focus:bg-white/[0.06] focus:outline-none focus:ring-[3px] focus:ring-[rgba(16,185,129,0.1)] focus:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="relative mt-2 flex items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 px-7 py-4 text-[15px] font-semibold tracking-wide text-white transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_10px_40px_rgba(16,185,129,0.4)] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? (
-              <>
-                <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-                Signing in...
-              </>
-            ) : (
-              'Sign in'
-            )}
-          </button>
-        </form>
-
-        <div className="mt-7 border-t border-dashed border-white/10 pt-7 text-center text-sm text-white/40">
+      {isTopCard && (
+        <div className="mt-4 border-t border-border pt-4 text-center text-xs text-muted-foreground">
           <p>
             Don&apos;t have an account?{' '}
-            <Link to="/signup" className="font-semibold text-emerald-400 hover:text-emerald-300">
+            <button 
+              onClick={() => setActiveIndex(1)} 
+              className="font-semibold text-foreground hover:text-muted-foreground"
+            >
               Create one
-            </Link>
+            </button>
           </p>
+        </div>
+      )}
+    </>
+  );
+
+  const renderSignupCard = (isTopCard) => (
+    <>
+      <div className="mb-5 text-center">
+        <div className="mx-auto mb-4 w-fit">
+          <img src={Logo1} alt="" className="h-10 w-auto object-contain" />
+        </div>
+        <h1 className="mb-1 text-xl font-bold tracking-tight text-foreground">
+          Create account
+        </h1>
+        <p className="text-xs text-muted-foreground">Get started with SessionStory, see exactly what your users experienced.</p>
+      </div>
+
+      {signupError && (
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+          <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="15" y1="9" x2="9" y2="15" />
+            <line x1="9" y1="9" x2="15" y2="15" />
+          </svg>
+          {signupError}
+        </div>
+      )}
+
+      <form onSubmit={handleSignupSubmit} className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="signup-name" className="text-[11px] font-medium tracking-wide text-foreground/70">
+            Full name
+          </label>
+          <input
+            type="text"
+            id="signup-name"
+            value={signupName}
+            onChange={(e) => setSignupName(e.target.value)}
+            placeholder="John Doe"
+            required
+            autoComplete="name"
+            className="rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground transition-all duration-150 placeholder:text-muted-foreground/50 hover:border-foreground/20 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-ring/20"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="signup-email" className="text-[11px] font-medium tracking-wide text-foreground/70">
+            Email
+          </label>
+          <input
+            type="email"
+            id="signup-email"
+            value={signupEmail}
+            onChange={(e) => setSignupEmail(e.target.value)}
+            placeholder="you@example.com"
+            required
+            autoComplete="email"
+            className="rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground transition-all duration-150 placeholder:text-muted-foreground/50 hover:border-foreground/20 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-ring/20"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="signup-password" className="text-[11px] font-medium tracking-wide text-foreground/70">
+            Password
+          </label>
+          <input
+            type="password"
+            id="signup-password"
+            value={signupPassword}
+            onChange={(e) => setSignupPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+            autoComplete="new-password"
+            className="rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground transition-all duration-150 placeholder:text-muted-foreground/50 hover:border-foreground/20 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-ring/20"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={signupLoading}
+          className="mt-1 flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {signupLoading ? (
+            <>
+              <span className="mr-2 inline-block h-3 w-3 animate-spin rounded-full border-2 border-primary-foreground/20 border-t-primary-foreground" />
+              Creating account...
+            </>
+          ) : (
+            'Create account'
+          )}
+        </button>
+      </form>
+
+      {isTopCard && (
+        <div className="mt-4 border-t border-border pt-4 text-center text-xs text-muted-foreground">
+          <p>
+            Already have an account?{' '}
+            <button 
+              onClick={() => setActiveIndex(0)} 
+              className="font-semibold text-foreground hover:text-muted-foreground"
+            >
+              Sign in
+            </button>
+          </p>
+        </div>
+      )}
+    </>
+  );
+
+  return (
+    <div className="relative h-screen w-screen overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 -z-20">
+        <img
+          src="https://ik.imagekit.io/lrigu76hy/tailark/night-background.jpg?updatedAt=1745733451120"
+          alt="background"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+      
+      {/* Radial gradient overlay */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--background)_75%)]"
+      />
+
+      {/* Bottom black gradient */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-48 -z-10 bg-gradient-to-t from-background via-background/80 to-transparent"
+      />
+
+      {/* Main content - split layout */}
+      <div className="h-full w-full flex items-center justify-center px-6 lg:px-12">
+        <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-16">
+          
+          {/* Left side - Title, subtitle and features */}
+          <div className="text-center lg:text-left order-2 lg:order-1 flex-shrink-0 space-y-6">
+            <div>
+              <span className="inline-block rounded-full border border-border/60 bg-card/25 px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground/90 backdrop-blur-sm">
+                Session replay & analytics
+              </span>
+            </div>
+            <PatternText text="SessionStory" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl" />
+            <div className="text-center mx-auto max-w-lg min-h-[4.5rem] flex flex-col justify-center">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.p
+                  key={subtitleIndex}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-base sm:text-lg text-foreground/90 leading-relaxed px-2"
+                >
+                  {subtitles[subtitleIndex]}
+                </motion.p>
+              </AnimatePresence>
+              <div className="flex justify-center gap-2 mt-4">
+                {subtitles.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSubtitleIndex(i)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === subtitleIndex ? 'w-5 bg-primary' : 'w-1.5 bg-muted-foreground/40 hover:bg-muted-foreground/60'
+                    }`}
+                    aria-label={`Subtitle ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right side - Card Stack (extra height for dots + swipe hint) */}
+          <div className="relative w-full max-w-[340px] h-[480px] order-1 lg:order-2">
+            <AnimatePresence mode="popLayout">
+              {displayCards.map((card) => {
+                const styles = getLayoutStyles(card.stackPosition);
+                const isTopCard = card.stackPosition === 0;
+
+                return (
+                  <motion.div
+                    key={card.id}
+                    layoutId={card.id}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      x: 0,
+                      ...styles,
+                    }}
+                    exit={{ opacity: 0, scale: 0.8, x: -200 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25,
+                    }}
+                    drag={isTopCard ? "x" : false}
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.7}
+                    onDragEnd={handleDragEnd}
+                    whileDrag={{ scale: 1.02, cursor: "grabbing" }}
+                    className={`absolute w-full inset-shadow-2xs ring-background rounded-2xl border border-border bg-card p-6 shadow-lg shadow-zinc-950/15 ring-1
+                      ${isTopCard ? 'cursor-grab active:cursor-grabbing' : ''}`}
+                    style={{
+                      position: 'absolute',
+                      top: styles.top,
+                      left: styles.left,
+                      zIndex: styles.zIndex,
+                      rotate: `${styles.rotate}deg`,
+                    }}
+                  >
+                    {card.id === 'login' ? renderLoginCard(isTopCard) : renderSignupCard(isTopCard)}
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+
+            {/* Pagination dots - inside wrapper so not clipped */}
+            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex gap-2">
+              {cards.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    index === activeIndex 
+                      ? 'w-5 bg-primary' 
+                      : 'w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  }`}
+                  aria-label={`Go to ${index === 0 ? 'login' : 'signup'}`}
+                />
+              ))}
+            </div>
+
+            {/* Swipe hint - inside wrapper so not clipped */}
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2">
+              <span className="text-[10px] text-muted-foreground/50">Swipe to switch</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

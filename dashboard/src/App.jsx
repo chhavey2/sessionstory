@@ -12,11 +12,8 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
-          {/* Protected routes */}
           <Route
             path="/"
             element={
@@ -29,8 +26,6 @@ function App() {
             <Route path="sessions" element={<Sessions />} />
             <Route path="setup" element={<Setup />} />
           </Route>
-
-          {/* Catch all - redirect to dashboard */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
