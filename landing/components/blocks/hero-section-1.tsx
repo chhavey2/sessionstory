@@ -221,7 +221,7 @@ export function HeroSection() {
                   /> */}
                   <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-xl">
                     <iframe
-                      src="https://player.sessionreplay.space/session_1769739675841_pel4rrb"
+                      src="https://player.sessionstory.co/session_1770134604015_lq475lk"
                       className="absolute top-0 left-0 border-0 rounded-xl origin-top-left 
                         w-[250%] h-[250%] scale-[0.4] 
                         min-[480px]:w-[200%] min-[480px]:h-[200%] min-[480px]:scale-[0.5]
@@ -377,9 +377,9 @@ const Logo = ({ className }: { className?: string }) => {
         height={32}
         className=""
       />
-      {/* <span className="text-xl font-bold tracking-tight text-foreground">
+      <span className="text-xl font-bold tracking-tight text-foreground">
         SessionStory
-      </span> */}
+      </span>
     </div>
   );
 };
