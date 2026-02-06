@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import { PatternText } from "@/components/ui/pattern-text";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { div } from "framer-motion/client";
 
 const transitionVariants = {
   item: {
@@ -151,7 +150,7 @@ export function HeroSection() {
                     },
                     ...transitionVariants,
                   }}
-                  className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row"
+                  className="mt-12 flex flex-col items-center justify-center gap-4 md:flex-row"
                 >
                   <div
                     key={1}
@@ -182,11 +181,30 @@ export function HeroSection() {
                       <span className="text-nowrap">Request a demo</span>
                     </Link>
                   </Button>
+
+                  {/* Mobile-only Watch Demo Button */}
+                  <Button
+                    key={3}
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="md:hidden h-10.5 rounded-xl px-5 w-full max-w-[240px] mb-[50%]"
+                  >
+                    <Link
+                      href="https://player.sessionstory.co/session_1770393543671_mmr5l3l"
+                      target="_blank"
+                      className="flex items-center gap-2"
+                    >
+                      <span className="text-nowrap">Watch Demo Recording</span>
+                      <ChevronRight className="size-4" />
+                    </Link>
+                  </Button>
                 </AnimatedGroup>
               </div>
             </div>
 
             <AnimatedGroup
+              className="hidden md:block"
               variants={{
                 container: {
                   visible: {
@@ -205,20 +223,6 @@ export function HeroSection() {
                   className="bg-gradient-to-b to-background absolute inset-0 z-10 from-transparent from-35%"
                 />
                 <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
-                  {/* <img
-                    className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
-                    src="https://tailark.com//_next/image?url=%2Fmail2.png&w=3840&q=75"
-                    alt="app screen"
-                    width="2700"
-                    height="1440"
-                  /> */}
-                  {/* <img
-                    className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
-                    src="https://tailark.com/_next/image?url=%2Fmail2-light.png&w=3840&q=75"
-                    alt="app screen"
-                    width="2700"
-                    height="1440"
-                  /> */}
                   <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-xl">
                     <iframe
                       src="https://player.sessionstory.co/session_1770393543671_mmr5l3l"

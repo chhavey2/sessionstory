@@ -124,7 +124,7 @@ export const Footer = ({
         </div>
 
         {/* Bottom logo */}
-        <div className="absolute hover:border-foreground duration-400 drop-shadow-[0_0px_20px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_0px_20px_rgba(255,255,255,0.3)] bottom-24 md:bottom-20 backdrop-blur-sm rounded-3xl bg-background/60 left-1/2 border-2 border-border flex items-center justify-center p-3 -translate-x-1/2 z-10">
+        <div className="absolute hover:border-foreground duration-400 drop-shadow-[0_0px_20px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_0px_20px_rgba(255,255,255,0.3)] bottom-24 md:bottom-20 backdrop-blur-sm rounded-3xl bg-background/60 left-1/2 border-2 border-border flex items-center justify-center -translate-x-1/2 z-10">
           <div className="w-12 sm:w-16 md:w-24 h-12 sm:h-16 md:h-24 bg-gradient-to-br from-foreground to-foreground/80 rounded-2xl flex items-center justify-center shadow-lg">
             {/* {brandIcon || (
               <NotepadTextDashed className="w-8 sm:w-10 md:w-14 h-8 sm:h-10 md:h-14 text-background drop-shadow-lg" />
@@ -134,7 +134,7 @@ export const Footer = ({
               alt="SessionStory Logo"
               width={70}
               height={70}
-              className="opacity-80"
+              className="opacity-80 w-10 h-10 sm:w-12 sm:h-12 md:w-[70px] md:h-[70px]"
             />
             {/* <span className="text-xl font-bold tracking-tight text-foreground">
                     SessionStory
