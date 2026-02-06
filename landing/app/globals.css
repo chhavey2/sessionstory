@@ -44,10 +44,28 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --background-image-square-pattern: linear-gradient(to right, oklch(1 0 0 / 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(1 0 0 / 0.15) 1px, transparent 1px);
+  --background-image-square-pattern-light: linear-gradient(to right, oklch(0 0 0 / 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0 0 0 / 0.1) 1px, transparent 1px);
+  --background-image-lines-pattern: repeating-linear-gradient(
+    -45deg,
+    oklch(1 0 0 / 0.15),
+    oklch(1 0 0 / 0.15) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  --background-image-lines-pattern-light: repeating-linear-gradient(
+    -45deg,
+    oklch(0 0 0 / 0.1),
+    oklch(0 0 0 / 0.1) 1px,
+    transparent 1px,
+    transparent 10px
+  );
   --animate-shadanim: shadanim 15s linear infinite;
   @keyframes shadanim {
-  0% {
-    background-position: 100% -100%;
+    0% {
+      background-position: 100% -100%;
     }
   }
 }

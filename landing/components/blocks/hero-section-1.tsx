@@ -123,7 +123,7 @@ export function HeroSection() {
                   </Link>
 
                   <PatternText text="SessionStory" />
-                  <div className="mt-[-1.5em] w-[50%] mx-auto">
+                  <div className="mt-4 md:mt-2 w-full md:w-[80%] lg:w-[60%] mx-auto">
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.p
                         key={subtitleIndex}
@@ -131,7 +131,7 @@ export function HeroSection() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.3 }}
-                        className="text-base sm:text-lg text-foreground/90 leading-relaxed px-2"
+                        className="text-base sm:text-lg text-foreground/80 leading-relaxed px-4 md:px-2"
                       >
                         {subtitles[subtitleIndex]}
                       </motion.p>
@@ -219,10 +219,15 @@ export function HeroSection() {
                     width="2700"
                     height="1440"
                   /> */}
-                  <div className="h-[600px]">
+                  <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-xl">
                     <iframe
                       src="https://player.sessionreplay.space/session_1769739675841_pel4rrb"
-                      className="rounded-2xl border-0 w-[250%] h-[250%] scale-[0.4] min-[600px]:w-[142.85%] min-[600px]:h-[142.85%] min-[600px]:scale-[0.7] origin-top-left"
+                      className="absolute top-0 left-0 border-0 rounded-xl origin-top-left 
+                        w-[250%] h-[250%] scale-[0.4] 
+                        min-[480px]:w-[200%] min-[480px]:h-[200%] min-[480px]:scale-[0.5]
+                        sm:w-[142.85%] sm:h-[142.85%] sm:scale-[0.7] 
+                        md:w-[125%] md:h-[125%] md:scale-[0.8] 
+                        lg:w-full lg:h-full lg:scale-100"
                       allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                       title="Session Replay Demo"
                     />

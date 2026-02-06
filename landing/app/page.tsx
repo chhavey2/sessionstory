@@ -19,8 +19,20 @@ import {
   LinesPatternCard,
   LinesPatternCardBody,
 } from "@/components/ui/card-with-lines-patter";
+import {
+  GridPatternCard,
+  GridPatternCardBody,
+} from "@/components/ui/card-with-grid-pattern";
 import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
-import { PlayCircle, BarChart3, AlertTriangle, Zap, Users } from "lucide-react";
+import {
+  PlayCircle,
+  BarChart3,
+  AlertTriangle,
+  Zap,
+  Users,
+  CheckCircle2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const socialLinks = [
@@ -118,39 +130,139 @@ export default function Home() {
       </div>
       <AnimatedGroup
         preset="blur-slide"
-        className="flex flex-col items-center justify-center gap-6 w-[90%] md:w-[70%] mx-auto py-24 relative"
+        className="flex flex-col items-center justify-center gap-6 w-[95%] md:w-[70%] mx-auto py-24 md:py-32 relative"
       >
         <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
           <Sparkles className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-zinc-400">
+          <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-zinc-400 text-nowrap">
             Core Capabilities
           </span>
         </div>
 
-        <h2 className="font-bold text-4xl md:text-6xl text-center tracking-tighter leading-[1.1] max-w-4xl bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
+        <h2 className="font-bold text-3xl md:text-6xl text-center tracking-tighter leading-[1.1] max-w-4xl bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent px-4">
           Everything you need to understand and optimize user experiences.
         </h2>
 
-        <p className="text-base md:text-lg text-white/50 text-center max-w-2xl leading-relaxed">
+        <p className="text-sm md:text-lg text-white/50 text-center max-w-2xl leading-relaxed px-4">
           Our session recording engine provides the deep context you need to
           build products that users love.
         </p>
       </AnimatedGroup>
-      <BentoGrid items={itemsSample} />
-      {/* <div>
-        <LinesPatternCard>
-          <LinesPatternCardBody>
-            <h3 className="text-lg font-bold mb-1 text-foreground">
-              Diagonal Lines Pattern
-            </h3>
-            <p className="text-wrap text-sm text-foreground/60">
-              A modern pattern featuring diagonal lines in a repeating grid.
-              Creates a sense of movement and depth while maintaining a clean,
-              minimalist aesthetic.
-            </p>
-          </LinesPatternCardBody>
-        </LinesPatternCard>
-      </div> */}
+      <div className="px-4 md:px-0">
+        <BentoGrid items={itemsSample} />
+      </div>
+
+      <section className="py-24 px-4 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div>
+                <span className="text-zinc-500 font-bold tracking-widest text-xs uppercase mb-4 block">
+                  The Next Generation
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
+                  Why leading teams are switching to SessionStory
+                </h2>
+                <p className="text-lg text-white/60 leading-relaxed max-w-xl">
+                  Legacy tools only tell you *what* happened. We tell you *why*.
+                  Our engine automatically surfaces user friction, so you don't
+                  have to watch thousands of sessions.
+                </p>
+              </div>
+
+              <ul className="space-y-4">
+                {[
+                  "Automatic friction discovery with AI",
+                  "Sub-second replay latency",
+                  "Zero performance impact on your app",
+                  "Advanced PII masking & data privacy",
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-zinc-400" />
+                    <span className="text-white/80 font-medium">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-zinc-500/10 to-white/5 rounded-3xl blur-2xl opacity-30 group-hover:opacity-60 transition duration-1000"></div>
+              <GridPatternCard className="rounded-3xl overflow-hidden group">
+                <GridPatternCardBody className="p-8">
+                  <div className="flex justify-between items-start mb-8">
+                    <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                      <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                        Friction Detected
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-white/40 uppercase font-medium">
+                      Just now
+                    </span>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-2">
+                        Checkout Friction Spike
+                      </h3>
+                      <p className="text-sm text-white/60 italic leading-relaxed">
+                        "AI detected a 45% increase in 'Dead Clicks' on the
+                        checkout button for mobile users."
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-white/5">
+                      <div className="flex justify-between items-end mb-2">
+                        <span className="text-sm font-medium text-white/60">
+                          Urgency Score
+                        </span>
+                        <span className="text-lg font-bold text-white">
+                          8.5/10
+                        </span>
+                      </div>
+                      <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-full w-[85%] bg-white/20 rounded-full"></div>
+                      </div>
+                    </div>
+
+                    <Button className="w-full bg-white hover:bg-zinc-200 text-black font-bold h-12 rounded-xl mt-4 transition-all duration-300">
+                      View Affected Sessions
+                    </Button>
+                  </div>
+                </GridPatternCardBody>
+              </GridPatternCard>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-24">
+        <div className="max-w-6xl mx-auto">
+          <LinesPatternCard className="rounded-[2.5rem] overflow-hidden group">
+            <LinesPatternCardBody className="relative z-10 flex flex-col items-center text-center space-y-8 p-12 md:p-24">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white max-w-3xl leading-[1.1]">
+                Ready to understand your users like never before?
+              </h2>
+              <p className="text-lg md:text-xl text-white/60 font-medium max-w-2xl">
+                Join 10,000+ developers using SessionStory to build better
+                experiences.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <Button className="bg-white text-black hover:bg-zinc-100 h-14 px-10 rounded-2xl text-lg font-bold shadow-xl shadow-black/10 transition-transform active:scale-95">
+                  Start for Free
+                </Button>
+                <Button
+                  variant="outline"
+                  className="bg-white/5 border-white/10 text-white hover:bg-white/10 h-14 px-10 rounded-2xl text-lg font-bold backdrop-blur-sm transition-transform active:scale-95"
+                >
+                  Schedule Demo
+                </Button>
+              </div>
+            </LinesPatternCardBody>
+          </LinesPatternCard>
+        </div>
+      </section>
+
       <div className="relative">
         <div className="">
           <Footer
@@ -160,14 +272,8 @@ export default function Home() {
             navLinks={navLinks}
             creatorName=""
             creatorUrl=""
-            // brandIcon={
-            //   <NotepadTextDashed className="w-8 sm:w-10 md:w-14 h-8 sm:h-10 md:h-14 text-background drop-shadow-lg" />
-            // }
           />
         </div>
-        {/* <div className="absolute bottom-0 h-[90vh] w-full">
-          <CrowdCanvas src="https://skiper-ui.com/images/peeps/all-peeps.png" />
-        </div> */}
       </div>
     </>
   );

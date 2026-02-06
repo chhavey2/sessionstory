@@ -79,11 +79,11 @@ export const Footer = ({
               )}
 
               {navLinks.length > 0 && (
-                <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-muted-foreground max-w-full px-4">
+                <div className="flex flex-wrap justify-center gap-x-6 gap-y-4 text-sm font-medium text-muted-foreground max-w-full px-4 mt-8">
                   {navLinks.map((link, index) => (
                     <Link
                       key={index}
-                      className="hover:text-foreground duration-300 hover:font-semibold"
+                      className="hover:text-foreground duration-300 hover:font-semibold whitespace-nowrap"
                       href={link.href}
                     >
                       {link.label}
@@ -94,8 +94,8 @@ export const Footer = ({
             </div>
           </div>
 
-          <div className="mt-20 md:mt-24 flex flex-col gap-2 md:gap-1 items-center justify-center md:flex-row md:items-center md:justify-between px-4 md:px-0">
-            <p className="text-base text-muted-foreground text-center md:text-left">
+          <div className="mt-24 md:mt-24 flex flex-col gap-4 md:gap-1 items-center justify-center md:flex-row md:items-center md:justify-between px-4 md:px-0 border-t border-white/5 pt-8 md:pt-0 md:border-t-0">
+            <p className="text-sm md:text-base text-muted-foreground text-center md:text-left">
               ©{new Date().getFullYear()} {brandName}. All rights reserved.
             </p>
             {creatorName && creatorUrl && (
@@ -103,7 +103,7 @@ export const Footer = ({
                 <Link
                   href={creatorUrl}
                   target="_blank"
-                  className="text-base text-muted-foreground hover:text-foreground transition-colors duration-300 hover:font-medium"
+                  className="text-sm md:text-base text-muted-foreground hover:text-foreground transition-colors duration-300 hover:font-medium"
                 >
                   Crafted by {creatorName}
                 </Link>
@@ -114,10 +114,9 @@ export const Footer = ({
 
         {/* Large background text - FIXED */}
         <div
-          className="bg-gradient-to-b from-foreground/20 via-foreground/10 to-transparent bg-clip-text text-transparent leading-none absolute left-1/2 -translate-x-1/2 bottom-40 md:bottom-32 font-extrabold tracking-tighter pointer-events-none select-none text-center px-4"
+          className="bg-gradient-to-b from-foreground/20 via-foreground/10 to-transparent bg-clip-text text-transparent leading-none absolute left-1/2 -translate-x-1/2 bottom-32 md:bottom-32 font-extrabold tracking-tighter pointer-events-none select-none text-center px-4 w-full"
           style={{
-            fontSize: "clamp(3rem, 12vw, 10rem)",
-            maxWidth: "95vw",
+            fontSize: "clamp(2.5rem, 15vw, 12rem)",
           }}
         >
           {brandName.toUpperCase()}
