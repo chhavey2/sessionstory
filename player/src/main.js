@@ -2,14 +2,13 @@ import rrwebPlayer from 'rrweb-player';
 import 'rrweb-player/dist/style.css';
 
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.sessionreplay.space';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.sessionstory.co';
 // Translation API can be different (for local testing with lingo.dev)
 const TRANSLATE_API_URL = import.meta.env.VITE_TRANSLATE_API_URL || API_BASE_URL;
 
 // DOM Elements
 const replayContainer = document.getElementById('replayContainer');
 const sessionStatus = document.getElementById('sessionStatus');
-const sessionInfoEl = document.getElementById('sessionInfo');
 const sessionUrlLinkEl = document.getElementById('sessionUrlLink');
 const sessionTimeEl = document.getElementById('sessionTime');
 const summaryLoading = document.getElementById('summaryLoading');
@@ -32,9 +31,11 @@ let currentLanguage = 'en';
 
 // Responsive dimensions calculation
 function getResponsiveDimensions(origW, origH) {
-  const summaryPanelWidth = 380;
-  const horizontalPadding = summaryPanelWidth + 80;
-  const verticalOverhead = 160;
+  // Approximate 60 / 40 split: leave ~40% of viewport width (plus gap) for summary
+  const summaryFraction = 0.4;
+  const isMobile = window.innerWidth < 768;
+  const horizontalPadding = isMobile ? 32 : window.innerWidth * summaryFraction + 80;
+  const verticalOverhead = isMobile ? 220 : 160;
 
   const maxWidth = Math.max(300, window.innerWidth - horizontalPadding);
   const maxHeight = Math.max(300, window.innerHeight - verticalOverhead);
@@ -145,26 +146,57 @@ async function translateSummary(targetLocale) {
   }
 }
 
-// Display summary text with formatting
+// Wrap each word in a span with staggered animation delay (TextGenerateEffect)
+function wrapWordsWithAnimation(htmlString) {
+  const temp = document.createElement('div');
+  temp.innerHTML = htmlString;
+  let wordIndex = 0;
+
+  function walkNodes(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const words = node.textContent.split(/(\s+)/);
+      const fragment = document.createDocumentFragment();
+      words.forEach(part => {
+        if (/^\s+$/.test(part)) {
+          fragment.appendChild(document.createTextNode(part));
+        } else if (part) {
+          const span = document.createElement('span');
+          span.className = 'tge-word';
+          span.style.animationDelay = `${wordIndex * 0.06}s`;
+          span.textContent = part;
+          fragment.appendChild(span);
+          wordIndex++;
+        }
+      });
+      node.parentNode.replaceChild(fragment, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      // Walk children in reverse to avoid index shifts
+      const children = Array.from(node.childNodes);
+      children.forEach(child => walkNodes(child));
+    }
+  }
+
+  walkNodes(temp);
+  return temp.innerHTML;
+}
+
+// Display summary text with formatting + text-generate animation
 function displaySummary(text) {
   summaryLoading.style.display = 'none';
   summaryError.style.display = 'none';
   summaryText.style.display = 'block';
-  
-  // Format the text with paragraphs and bullet points
+
   const formatted = formatSummaryText(text);
-  summaryText.innerHTML = formatted;
+  summaryText.innerHTML = wrapWordsWithAnimation(formatted);
 }
 
 // Format summary text for better readability
 function formatSummaryText(text) {
   if (!text) return '';
-  
-  // Split into paragraphs
+
   const paragraphs = text.split('\n\n').filter(p => p.trim());
-  
+
   return paragraphs.map(para => {
-    // Check if it's a list item
     if (para.trim().startsWith('- ') || para.trim().startsWith('• ')) {
       const items = para.split('\n').map(item => {
         const cleanItem = item.replace(/^[-•]\s*/, '').trim();
@@ -172,8 +204,7 @@ function formatSummaryText(text) {
       }).join('');
       return `<ul>${items}</ul>`;
     }
-    
-    // Check if it's a numbered list
+
     if (/^\d+[\.\)]\s/.test(para.trim())) {
       const items = para.split('\n').map(item => {
         const cleanItem = item.replace(/^\d+[\.\)]\s*/, '').trim();
@@ -181,13 +212,11 @@ function formatSummaryText(text) {
       }).join('');
       return `<ol>${items}</ol>`;
     }
-    
-    // Check for headers (lines ending with :)
+
     if (para.trim().endsWith(':') && para.trim().length < 50) {
       return `<h4>${para.trim()}</h4>`;
     }
-    
-    // Regular paragraph
+
     return `<p>${para.trim()}</p>`;
   }).join('');
 }
@@ -249,36 +278,22 @@ async function initPlayer() {
     currentEvents = data.events;
     sessionStatus.innerText = `${currentEvents.length} events`;
 
-    if (sessionInfoEl) {
-      const hasUrl = data.url && sessionUrlLinkEl;
-      const hasTime = data.createdAt && sessionTimeEl;
-      if (hasUrl || hasTime) {
-        sessionInfoEl.style.display = 'flex';
-        const urlRow = sessionUrlLinkEl && sessionUrlLinkEl.closest('.session-info-url');
-        const timeRow = sessionTimeEl && sessionTimeEl.closest('.session-info-time');
-        const sepEl = document.getElementById('sessionInfoSep');
-        if (hasUrl && urlRow) {
-          try {
-            const u = new URL(data.url);
-            const displayUrl = u.hostname + (u.pathname !== '/' ? u.pathname : '');
-            sessionUrlLinkEl.href = data.url;
-            sessionUrlLinkEl.title = data.url;
-            sessionUrlLinkEl.textContent = displayUrl.length > 40 ? displayUrl.slice(0, 40) + '…' : displayUrl;
-            urlRow.style.display = 'inline-flex';
-          } catch (_) {
-            sessionUrlLinkEl.href = data.url;
-            sessionUrlLinkEl.textContent = data.url.length > 40 ? data.url.slice(0, 40) + '…' : data.url;
-            urlRow.style.display = 'inline-flex';
-          }
-        } else if (urlRow) urlRow.style.display = 'none';
-        if (hasTime && timeRow) {
-          sessionTimeEl.textContent = new Date(data.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
-          timeRow.style.display = 'inline-flex';
-        } else if (timeRow) timeRow.style.display = 'none';
-        if (sepEl) sepEl.style.display = hasUrl && hasTime ? 'inline' : 'none';
-      } else {
-        sessionInfoEl.style.display = 'none';
+    // URL + time meta
+    if (data.url && sessionUrlLinkEl) {
+      try {
+        const u = new URL(data.url);
+        const displayUrl = u.hostname + (u.pathname !== '/' ? u.pathname : '');
+        sessionUrlLinkEl.href = data.url;
+        sessionUrlLinkEl.title = data.url;
+        sessionUrlLinkEl.textContent = displayUrl.length > 40 ? displayUrl.slice(0, 40) + '…' : displayUrl;
+      } catch (_) {
+        sessionUrlLinkEl.href = data.url;
+        sessionUrlLinkEl.title = data.url;
+        sessionUrlLinkEl.textContent = data.url.length > 40 ? data.url.slice(0, 40) + '…' : data.url;
       }
+    }
+    if (data.createdAt && sessionTimeEl) {
+      sessionTimeEl.textContent = new Date(data.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
     }
 
     createPlayer(currentEvents);
@@ -290,7 +305,6 @@ async function initPlayer() {
     console.error('Error initializing player:', error);
     sessionStatus.innerText = 'Error loading session';
     replayContainer.innerHTML = `<p class="error-message">Error: ${error.message}</p>`;
-    if (sessionInfoEl) sessionInfoEl.style.display = 'none';
   }
 }
 
