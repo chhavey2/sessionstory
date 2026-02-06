@@ -15,7 +15,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import { AnimatedGroup } from "@/components/ui/animated-group";
-
+import {
+  LinesPatternCard,
+  LinesPatternCardBody,
+} from "@/components/ui/card-with-lines-patter";
 import { BentoGrid, type BentoItem } from "@/components/ui/bento-grid";
 import { PlayCircle, BarChart3, AlertTriangle, Zap, Users } from "lucide-react";
 
@@ -134,6 +137,20 @@ export default function Home() {
         </p>
       </AnimatedGroup>
       <BentoGrid items={itemsSample} />
+      {/* <div>
+        <LinesPatternCard>
+          <LinesPatternCardBody>
+            <h3 className="text-lg font-bold mb-1 text-foreground">
+              Diagonal Lines Pattern
+            </h3>
+            <p className="text-wrap text-sm text-foreground/60">
+              A modern pattern featuring diagonal lines in a repeating grid.
+              Creates a sense of movement and depth while maintaining a clean,
+              minimalist aesthetic.
+            </p>
+          </LinesPatternCardBody>
+        </LinesPatternCard>
+      </div> */}
       <div className="relative">
         <div className="">
           <Footer

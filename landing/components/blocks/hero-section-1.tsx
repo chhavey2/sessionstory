@@ -162,8 +162,12 @@ export function HeroSection() {
                       size="lg"
                       className="rounded-xl px-5 text-base"
                     >
-                      <Link href="#link">
-                        <span className="text-nowrap">Start Building</span>
+                      <Link
+                        href="https://dashboard.sessionstory.co/"
+                        className="flex items-center gap-2"
+                      >
+                        <span className="text-nowrap">Get Started</span>
+                        <ArrowRight className="size-4" />
                       </Link>
                     </Button>
                   </div>
@@ -320,6 +324,9 @@ const HeroHeader = () => {
                   variant="outline"
                   size="sm"
                   className={cn(isScrolled && "lg:hidden")}
+                  onClick={() => {
+                    window.location.href = "https://dashboard.sessionstory.co/";
+                  }}
                 >
                   <Link href="#">
                     <span>Login</span>
@@ -329,6 +336,9 @@ const HeroHeader = () => {
                   asChild
                   size="sm"
                   className={cn(isScrolled && "lg:hidden")}
+                  onClick={() => {
+                    window.location.href = "https://dashboard.sessionstory.co/";
+                  }}
                 >
                   <Link href="#">
                     <span>Sign Up</span>
