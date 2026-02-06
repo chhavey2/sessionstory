@@ -221,7 +221,7 @@ export function HeroSection() {
                   /> */}
                   <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-xl">
                     <iframe
-                      src="https://player.sessionstory.co/session_1770381765406_u0yfkk3"
+                      src="https://player.sessionstory.co/session_1770393543671_mmr5l3l"
                       className="absolute top-0 left-0 border-0 rounded-xl origin-top-left 
                         w-[400%] h-[400%] scale-[0.25] 
                         min-[480px]:w-[333.33%] min-[480px]:h-[333.33%] min-[480px]:scale-[0.3]
