@@ -59,10 +59,10 @@ export default function Home() {
   ];
 
   const navLinks = [
-    { label: "Pricing", href: "/" },
-    { label: "Templates", href: "/" },
-    { label: "About", href: "/" },
-    { label: "Contact", href: "/" },
+    { label: "Features", href: "#features" },
+    { label: "Solutions", href: "#solutions" },
+    { label: "Blog", href: "#blog" },
+    { label: "Contact", href: "#footer" },
   ];
 
   const itemsSample: BentoItem[] = [
@@ -128,31 +128,33 @@ export default function Home() {
       <div>
         <HeroSection />
       </div>
-      <AnimatedGroup
-        preset="blur-slide"
-        className="flex flex-col items-center justify-center gap-6 w-[95%] md:w-[70%] mx-auto py-24 md:py-32 relative"
-      >
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
-          <Sparkles className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-zinc-400 text-nowrap">
-            Core Capabilities
-          </span>
-        </div>
+      <div id="features">
+        <AnimatedGroup
+          preset="blur-slide"
+          className="flex flex-col items-center justify-center gap-6 w-[95%] md:w-[70%] mx-auto py-24 md:py-32 relative"
+        >
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
+            <Sparkles className="w-3.5 h-3.5 text-zinc-400" />
+            <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-zinc-400 text-nowrap">
+              Core Capabilities
+            </span>
+          </div>
 
-        <h2 className="font-bold text-3xl md:text-6xl text-center tracking-tighter leading-[1.1] max-w-4xl bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent px-4">
-          Everything you need to understand and optimize user experiences.
-        </h2>
+          <h2 className="font-bold text-3xl md:text-6xl text-center tracking-tighter leading-[1.1] max-w-4xl bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent px-4">
+            Everything you need to understand and optimize user experiences.
+          </h2>
 
-        <p className="text-sm md:text-lg text-white/50 text-center max-w-2xl leading-relaxed px-4">
-          Our session recording engine provides the deep context you need to
-          build products that users love.
-        </p>
-      </AnimatedGroup>
+          <p className="text-sm md:text-lg text-white/50 text-center max-w-2xl leading-relaxed px-4">
+            Our session recording engine provides the deep context you need to
+            build products that users love.
+          </p>
+        </AnimatedGroup>
+      </div>
       <div className="px-4 md:px-0">
         <BentoGrid items={itemsSample} />
       </div>
 
-      <section className="py-24 px-4 overflow-hidden">
+      <section id="solutions" className="py-24 px-4 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -237,7 +239,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 py-24">
+      <section id="blog" className="px-4 py-24">
         <div className="max-w-7xl mx-auto">
           <AnimatedGroup
             preset="blur-slide"
@@ -366,7 +368,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 py-24">
+      <section id="contact" className="px-4 py-24">
         <div className="max-w-6xl mx-auto">
           <LinesPatternCard className="rounded-[2.5rem] overflow-hidden group">
             <LinesPatternCardBody className="relative z-10 flex flex-col items-center text-center space-y-8 p-12 md:p-24">
@@ -392,7 +394,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="relative">
+      <div id="footer" className="relative">
         <div className="">
           <Footer
             brandName="SessionStory"
