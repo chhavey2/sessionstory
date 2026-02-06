@@ -52,7 +52,7 @@ function getResponsiveDimensions(origW, origH) {
 
   return { 
     width: Math.floor(width), 
-    height: Math.floor(height) 
+    height: Math.floor(height) + 20 
   };
 }
 
@@ -197,27 +197,31 @@ function formatSummaryText(text) {
   const paragraphs = text.split('\n\n').filter(p => p.trim());
 
   return paragraphs.map(para => {
-    if (para.trim().startsWith('- ') || para.trim().startsWith('• ')) {
-      const items = para.split('\n').map(item => {
+    const trimmedPara = para.trim();
+    
+    // Check for headers (ends with colon)
+    if (trimmedPara.endsWith(':') && trimmedPara.length < 60) {
+      return `<h4>${trimmedPara.replace(/:$/, '')}</h4>`;
+    }
+
+    // Check for lists
+    if (trimmedPara.startsWith('- ') || trimmedPara.startsWith('• ')) {
+      const items = trimmedPara.split('\n').map(item => {
         const cleanItem = item.replace(/^[-•]\s*/, '').trim();
         return cleanItem ? `<li>${cleanItem}</li>` : '';
       }).join('');
       return `<ul>${items}</ul>`;
     }
 
-    if (/^\d+[\.\)]\s/.test(para.trim())) {
-      const items = para.split('\n').map(item => {
+    if (/^\d+[\.\)]\s/.test(trimmedPara)) {
+      const items = trimmedPara.split('\n').map(item => {
         const cleanItem = item.replace(/^\d+[\.\)]\s*/, '').trim();
         return cleanItem ? `<li>${cleanItem}</li>` : '';
       }).join('');
       return `<ol>${items}</ol>`;
     }
 
-    if (para.trim().endsWith(':') && para.trim().length < 50) {
-      return `<h4>${para.trim()}</h4>`;
-    }
-
-    return `<p>${para.trim()}</p>`;
+    return `<p>${trimmedPara}</p>`;
   }).join('');
 }
 

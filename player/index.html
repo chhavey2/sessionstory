@@ -7,46 +7,99 @@
     <link rel="icon" type="image/svg+xml" href="./src/assets/logo.svg" />
     <link rel="stylesheet" href="/src/index.css" />
   </head>
-  <body class="min-h-screen overflow-x-hidden overflow-y-auto flex flex-col bg-[#0a0a12] text-white font-sans">
-    <!-- Background image (same as dashboard) -->
-    <div class="fixed inset-0 -z-20">
+  <body
+    class="min-h-screen overflow-x-hidden overflow-y-auto flex flex-col bg-[#030303] text-white font-sans"
+  >
+    <!-- Premium Background Stack -->
+    <div class="fixed inset-0 -z-30">
       <img
-        src="https://ik.imagekit.io/lrigu76hy/tailark/night-background.jpg?updatedAt=1745733451120"
+        src="/src/assets/bg-mesh.png"
         alt=""
-        class="absolute inset-0 w-full h-full object-cover"
+        class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale contrast-125"
       />
     </div>
+
+    <!-- Deep darkening gradient -->
+    <div
+      aria-hidden
+      class="fixed inset-0 -z-20 bg-gradient-to-b from-[#030303]/40 via-transparent to-[#030303]"
+    ></div>
+
+    <!-- Subtle Grid Pattern -->
+    <div
+      aria-hidden
+      class="fixed inset-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
+    ></div>
+
+    <!-- Vignette / Focus Glow -->
     <div
       aria-hidden
       class="fixed inset-0 -z-10"
-      style="background: radial-gradient(125% 125% at 50% 100%, transparent 0%, rgba(10, 10, 18, 1) 75%);"
+      style="
+        background: radial-gradient(
+          circle at 50% 50%,
+          transparent 0%,
+          rgba(3, 3, 3, 0.4) 100%
+        );
+      "
     ></div>
-    <div
-      aria-hidden
-      class="fixed inset-x-0 bottom-0 h-48 -z-10 pointer-events-none bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/80 to-transparent"
-    ></div>
+
+    <!-- Fine Grain Overlay -->
+    <div aria-hidden class="fixed inset-0 -z-10 pointer-events-none opacity-[0.15] mix-blend-overlay" style="background-image: url('https://grainy-gradients.vercel.app/noise.svg');"></div>
 
     <!-- Top black gradient (like dashboard) -->
-    <div aria-hidden class="fixed inset-x-0 top-0 h-28 z-40 pointer-events-none bg-gradient-to-b from-black via-black/80 to-transparent"></div>
+    <div
+      aria-hidden
+      class="fixed inset-x-0 top-0 h-28 z-40 pointer-events-none bg-gradient-to-b from-black via-black/80 to-transparent"
+    ></div>
 
     <!-- Header: logo + meta left, title + url right -->
-    <header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 bg-gradient-to-b from-black/90 via-black/80 to-transparent">
+    <header
+      class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 bg-gradient-to-b from-black/90 via-black/80 to-transparent"
+    >
       <div class="flex items-center justify-between gap-4">
         <div class="flex items-start gap-2.5 sm:gap-3 min-w-0">
-          <img src="./src/assets/logo.svg" alt="SessionStory" class="h-8 w-auto object-contain shrink-0" />
+          <img
+            src="./src/assets/logo.svg"
+            alt="SessionStory"
+            class="h-8 w-auto object-contain shrink-0"
+          />
           <div class="flex flex-col min-w-0">
-            <span id="sessionStatus" class="text-xs sm:text-sm font-semibold text-white/80 truncate max-w-[160px] sm:max-w-[220px]">Loading session...</span>
-            <span id="sessionTime" class="mt-0.5 text-[11px] sm:text-xs text-white/55 truncate max-w-[160px] sm:max-w-[220px]"></span>
+            <span
+              id="sessionStatus"
+              class="text-xs sm:text-sm font-semibold text-white/80 truncate max-w-[160px] sm:max-w-[220px]"
+              >Loading session...</span
+            >
+            <span
+              id="sessionTime"
+              class="mt-0.5 text-[11px] sm:text-xs text-white/55 truncate max-w-[160px] sm:max-w-[220px]"
+            ></span>
           </div>
         </div>
         <div class="flex flex-col items-end min-w-0">
           <a href="/" class="no-underline">
-            <span class="pattern-text text-2xl sm:text-3xl tracking-tight" data-shadow="SessionStory">SessionStory</span>
+            <span
+              class="pattern-text text-2xl sm:text-3xl tracking-tight"
+              data-shadow="SessionStory"
+              >SessionStory</span
+            >
           </a>
-          <div class="mt-1 flex items-center gap-1.5 max-w-[160px] sm:max-w-[260px]">
-            <svg class="w-3.5 h-3.5 text-white/55 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          <div
+            class="mt-1 flex items-center gap-1.5 max-w-[160px] sm:max-w-[260px]"
+          >
+            <svg
+              class="w-3.5 h-3.5 text-white/55 flex-shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+              />
+              <path
+                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+              />
             </svg>
             <a
               id="sessionUrlLink"
@@ -61,22 +114,45 @@
     </header>
 
     <!-- Main content -->
-    <main class="flex-1 pt-20 p-4 sm:p-6 sm:pt-22 gap-4 sm:gap-5 lg:gap-6 relative min-h-0 min-w-0 lg:flex lg:flex-row">
+    <main
+      class="flex-1 pt-20 p-4 sm:p-6 sm:pt-22 gap-4 sm:gap-5 lg:gap-6 relative min-h-0 min-w-0 lg:flex lg:flex-row"
+    >
       <!-- Player -->
-      <div class="w-full lg:flex-[0.6] flex items-center justify-center relative z-[1] min-h-0 min-w-0 lg:min-h-[280px]">
-        <div id="replayContainer" class="replay-frame w-full h-full min-h-[240px] flex items-center justify-center rounded-2xl"></div>
+      <div
+        class="w-full lg:flex-[0.6] flex items-center justify-center relative z-[1] min-h-0 min-w-0 lg:min-h-[280px]"
+      >
+        <div
+          id="replayContainer"
+          class="replay-frame w-full h-full min-h-[240px] flex items-center justify-center rounded-2xl"
+        ></div>
       </div>
 
       <!-- Summary (no bg, no container — text directly on bg) -->
-      <aside id="summaryPanel" class="summary-panel w-full lg:flex-[0.4] shrink-0 flex flex-col mt-8 lg:mt-0 max-h-none lg:max-h-none overflow-visible z-[1]">
-        <div class="summary-panel-header pt-4 pb-4 flex flex-col gap-2 overflow-visible">
+      <aside
+        id="summaryPanel"
+        class="summary-panel w-full lg:flex-[0.4] shrink-0 flex flex-col mt-8 lg:mt-0 max-h-none lg:max-h-none overflow-visible z-[1]"
+      >
+        <div
+          class="summary-panel-header pt-4 pb-4 flex flex-col gap-2 overflow-visible"
+        >
           <div class="flex items-center justify-between gap-3">
             <div class="flex flex-col">
-              <h2 class="text-sm font-semibold tracking-tight text-white/85 uppercase tracking-[0.22em]">AI Summary</h2>
-              <p class="mt-1 text-[11px] text-white/55">High‑level narrative of this session, updated live.</p>
+              <h2
+                class="text-sm font-semibold tracking-tight text-white/85 uppercase tracking-[0.22em]"
+              >
+                AI Summary
+              </h2>
+              <p class="mt-1 text-[11px] text-white/55">
+                High‑level narrative of this session, updated live.
+              </p>
             </div>
             <div class="language-dropdown relative">
-              <select id="languageSelect" class="sr-only" aria-hidden="true" tabindex="-1">
+              <select
+                id="languageSelect"
+                class="sr-only"
+                aria-hidden="true"
+                tabindex="-1"
+              >
                 <option value="en">English</option>
                 <option value="es">Español</option>
                 <option value="fr">Français</option>
@@ -100,62 +176,241 @@
                 aria-haspopup="listbox"
                 aria-expanded="false"
               >
-                <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>
+                <svg
+                  class="w-3.5 h-3.5 shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path
+                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                  />
+                </svg>
                 <span id="languageDropdownLabel" class="truncate">English</span>
-                <svg class="w-3 h-3 text-white/30 shrink-0 transition-transform duration-200 lang-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                <svg
+                  class="w-3 h-3 text-white/30 shrink-0 transition-transform duration-200 lang-chevron"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
               </button>
-              <div id="languageDropdownList" class="language-dropdown-list absolute right-0 top-full mt-1.5 py-1.5 rounded-xl bg-[#12121e] border border-white/10 shadow-xl z-50 max-h-[280px] overflow-y-auto hidden min-w-[140px]" role="listbox" tabindex="-1">
-                <div role="option" data-value="en" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">English</div>
-                <div role="option" data-value="es" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Español</div>
-                <div role="option" data-value="fr" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Français</div>
-                <div role="option" data-value="de" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Deutsch</div>
-                <div role="option" data-value="it" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Italiano</div>
-                <div role="option" data-value="pt" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Português</div>
-                <div role="option" data-value="zh" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">中文</div>
-                <div role="option" data-value="ja" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">日本語</div>
-                <div role="option" data-value="ko" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">한국어</div>
-                <div role="option" data-value="ar" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">العربية</div>
-                <div role="option" data-value="hi" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">हिन्दी</div>
-                <div role="option" data-value="ru" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Русский</div>
-                <div role="option" data-value="nl" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Nederlands</div>
-                <div role="option" data-value="pl" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Polski</div>
-                <div role="option" data-value="tr" class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors">Türkçe</div>
+              <div
+                id="languageDropdownList"
+                class="language-dropdown-list absolute right-0 top-full mt-1.5 py-1.5 rounded-xl bg-[#0a0a0a] border border-white/10 shadow-xl z-50 max-h-[280px] overflow-y-auto hidden min-w-[140px]"
+                role="listbox"
+                tabindex="-1"
+              >
+                <div
+                  role="option"
+                  data-value="en"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  English
+                </div>
+                <div
+                  role="option"
+                  data-value="es"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Español
+                </div>
+                <div
+                  role="option"
+                  data-value="fr"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Français
+                </div>
+                <div
+                  role="option"
+                  data-value="de"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Deutsch
+                </div>
+                <div
+                  role="option"
+                  data-value="it"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Italiano
+                </div>
+                <div
+                  role="option"
+                  data-value="pt"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Português
+                </div>
+                <div
+                  role="option"
+                  data-value="zh"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  中文
+                </div>
+                <div
+                  role="option"
+                  data-value="ja"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  日本語
+                </div>
+                <div
+                  role="option"
+                  data-value="ko"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  한국어
+                </div>
+                <div
+                  role="option"
+                  data-value="ar"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  العربية
+                </div>
+                <div
+                  role="option"
+                  data-value="hi"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  हिन्दी
+                </div>
+                <div
+                  role="option"
+                  data-value="ru"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Русский
+                </div>
+                <div
+                  role="option"
+                  data-value="nl"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Nederlands
+                </div>
+                <div
+                  role="option"
+                  data-value="pl"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Polski
+                </div>
+                <div
+                  role="option"
+                  data-value="tr"
+                  class="language-option px-3 py-2 text-xs text-white/70 hover:bg-white/[0.06] hover:text-white cursor-pointer transition-colors"
+                >
+                  Türkçe
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="summaryContent" class="summary-content flex-1 overflow-y-auto min-h-0 relative">
-          <div id="summaryLoading" class="summary-loading flex flex-col items-center justify-center py-16 gap-5 text-white/45">
-            <div class="newtons-cradle" style="--uib-loader-color: #ffffff; --uib-loader-size: 44px;">
-              <div class="newtons-cradle__dot"></div>
-              <div class="newtons-cradle__dot"></div>
-              <div class="newtons-cradle__dot"></div>
-              <div class="newtons-cradle__dot"></div>
+        <div
+          id="summaryContent"
+          class="summary-content flex-1 overflow-y-auto min-h-0 relative"
+        >
+          <div
+            id="summaryLoading"
+            class="summary-loading flex flex-col pt-4 gap-6 text-white/45"
+          >
+            <div class="summary-loading-skeleton">
+              <div class="skeleton skeleton-title"></div>
+              <div class="skeleton skeleton-line"></div>
+              <div class="skeleton skeleton-line"></div>
+              <div class="skeleton skeleton-line short"></div>
             </div>
-            <p class="text-xs font-medium">Generating AI summary...</p>
+            <div class="summary-loading-skeleton">
+              <div class="skeleton skeleton-title"></div>
+              <div class="skeleton skeleton-line"></div>
+              <div class="skeleton skeleton-line short"></div>
+            </div>
+            <div class="flex items-center gap-3 mt-2">
+              <div class="relative flex items-center justify-center">
+                <svg
+                  class="animate-spin h-4 w-4 text-white/40"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+              <p class="text-[11px] font-medium text-white/50 uppercase tracking-[0.1em]">
+                Generating AI summary...
+              </p>
+            </div>
           </div>
           <div id="summaryText" class="hidden"></div>
-          <div id="summaryError" class="hidden flex flex-col items-center justify-center py-16 gap-4 text-white/40 text-center">
-            <svg class="w-8 h-8 text-white/20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+          <div
+            id="summaryError"
+            class="hidden flex flex-col items-center justify-center py-16 gap-4 text-white/40 text-center"
+          >
+            <svg
+              class="w-8 h-8 text-white/20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
             <div>
-              <p class="text-sm font-medium text-white/60">Couldn't load summary</p>
-              <p class="text-xs text-white/35 mt-1">Check your connection and try again.</p>
+              <p class="text-sm font-medium text-white/60">
+                Couldn't load summary
+              </p>
+              <p class="text-xs text-white/35 mt-1">
+                Check your connection and try again.
+              </p>
             </div>
-            <button id="retrySummary" class="mt-1 py-2 px-4 rounded-lg border border-white/15 text-white/60 text-xs font-semibold cursor-pointer hover:border-white/30 hover:text-white transition-all duration-200" type="button">Try again</button>
+            <button
+              id="retrySummary"
+              class="mt-1 py-2 px-4 rounded-lg border border-white/15 text-white/60 text-xs font-semibold cursor-pointer hover:border-white/30 hover:text-white transition-all duration-200"
+              type="button"
+            >
+              Try again
+            </button>
           </div>
         </div>
 
         <div class="pt-3 mt-auto">
-          <div class="flex items-center justify-center gap-2 text-[10px] text-white/80">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/30">
+          <div
+            class="flex items-center justify-center gap-2 text-[10px] text-white/80"
+          >
+            <span
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/30"
+            >
               <span>Translations by</span>
               <a
                 href="https://lingo.dev"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="no-underline font-semibold"
-                style="color: #6AE300;"
+                style="color: #6ae300"
               >
                 lingo.dev
               </a>
