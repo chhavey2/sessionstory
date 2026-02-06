@@ -177,7 +177,10 @@ export function HeroSection() {
                     variant="ghost"
                     className="h-10.5 rounded-xl px-5"
                   >
-                    <Link href="#link">
+                    <Link
+                      href="https://calendly.com/chhaveygupta/30min"
+                      target="_blank"
+                    >
                       <span className="text-nowrap">Request a demo</span>
                     </Link>
                   </Button>
@@ -247,10 +250,10 @@ export function HeroSection() {
 }
 
 const menuItems = [
-  { name: "Features", href: "#link" },
-  { name: "Solution", href: "#link" },
-  { name: "Pricing", href: "#link" },
-  { name: "About", href: "#link" },
+  { name: "Features", href: "#features" },
+  { name: "Solutions", href: "#solutions" },
+  { name: "Blog", href: "#blog" },
+  { name: "Contact", href: "#footer" },
 ];
 
 const HeroHeader = () => {
@@ -264,6 +267,30 @@ const HeroHeader = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    const targetId = href.replace("#", "");
+    const element = document.getElementById(targetId);
+
+    if (element) {
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+
+      // Close mobile menu if open
+      setMenuState(false);
+    }
+  };
   return (
     <header>
       <nav
@@ -303,6 +330,7 @@ const HeroHeader = () => {
                   <li key={index}>
                     <Link
                       href={item.href}
+                      onClick={(e) => handleSmoothScroll(e, item.href)}
                       className="text-muted-foreground hover:text-accent-foreground block duration-150"
                     >
                       <span>{item.name}</span>
@@ -319,6 +347,7 @@ const HeroHeader = () => {
                     <li key={index}>
                       <Link
                         href={item.href}
+                        onClick={(e) => handleSmoothScroll(e, item.href)}
                         className="text-muted-foreground hover:text-accent-foreground block duration-150"
                       >
                         <span>{item.name}</span>
