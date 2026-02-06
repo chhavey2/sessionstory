@@ -9,6 +9,7 @@ import {
   Mail,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface FooterLink {
   label: string;
@@ -54,14 +55,14 @@ export const Footer = ({
                     {brandName}
                   </span>
                 </div>
-                <p className="text-muted-foreground font-semibold text-center w-full max-w-sm sm:w-96 px-4 sm:px-0">
+                <p className="text-muted-foreground font-semibold text-center w-full max-w-2xl px-4 sm:px-0">
                   {brandDescription}
                 </p>
               </div>
 
               {socialLinks.length > 0 && (
                 <div className="flex mb-8 mt-3 gap-4">
-                  {/* {socialLinks.map((link, index) => (
+                  {socialLinks.map((link, index) => (
                     <Link
                       key={index}
                       href={link.href}
@@ -74,7 +75,7 @@ export const Footer = ({
                       </div>
                       <span className="sr-only">{link.label}</span>
                     </Link>
-                  ))} */}
+                  ))}
                 </div>
               )}
 
@@ -123,13 +124,23 @@ export const Footer = ({
         </div>
 
         {/* Bottom logo */}
-        {/* <div className="absolute hover:border-foreground duration-400 drop-shadow-[0_0px_20px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_0px_20px_rgba(255,255,255,0.3)] bottom-24 md:bottom-20 backdrop-blur-sm rounded-3xl bg-background/60 left-1/2 border-2 border-border flex items-center justify-center p-3 -translate-x-1/2 z-10">
+        <div className="absolute hover:border-foreground duration-400 drop-shadow-[0_0px_20px_rgba(0,0,0,0.5)] dark:drop-shadow-[0_0px_20px_rgba(255,255,255,0.3)] bottom-24 md:bottom-20 backdrop-blur-sm rounded-3xl bg-background/60 left-1/2 border-2 border-border flex items-center justify-center p-3 -translate-x-1/2 z-10">
           <div className="w-12 sm:w-16 md:w-24 h-12 sm:h-16 md:h-24 bg-gradient-to-br from-foreground to-foreground/80 rounded-2xl flex items-center justify-center shadow-lg">
-            {brandIcon || (
+            {/* {brandIcon || (
               <NotepadTextDashed className="w-8 sm:w-10 md:w-14 h-8 sm:h-10 md:h-14 text-background drop-shadow-lg" />
-            )}
+            )} */}
+            <Image
+              src="https://dashboard.sessionstory.co/assets/Logo1-BViLASYd.svg"
+              alt="SessionStory Logo"
+              width={32}
+              height={32}
+              className=""
+            />
+            {/* <span className="text-xl font-bold tracking-tight text-foreground">
+                    SessionStory
+                  </span> */}
           </div>
-        </div> */}
+        </div>
 
         {/* Bottom line */}
         <div className="absolute bottom-32 sm:bottom-34 backdrop-blur-sm h-1 bg-gradient-to-r from-transparent via-border to-transparent w-full left-1/2 -translate-x-1/2"></div>

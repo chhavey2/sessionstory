@@ -161,7 +161,8 @@ export default function Home() {
                   The Next Generation
                 </span>
                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
-                  Why leading teams are switching to SessionStory
+                  Built for teams who want to move from assumptions to clarity
+                  by seeing real user behavior
                 </h2>
                 <p className="text-lg text-white/60 leading-relaxed max-w-xl">
                   Legacy tools only tell you *what* happened. We tell you *why*.
@@ -244,8 +245,7 @@ export default function Home() {
                 Ready to understand your users like never before?
               </h2>
               <p className="text-lg md:text-xl text-white/60 font-medium max-w-2xl">
-                Join 10,000+ developers using SessionStory to build better
-                experiences.
+                Join, developers using SessionStory to build better experiences.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <Button className="bg-white text-black hover:bg-zinc-100 h-14 px-10 rounded-2xl text-lg font-bold shadow-xl shadow-black/10 transition-transform active:scale-95">
