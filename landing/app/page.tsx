@@ -238,6 +238,135 @@ export default function Home() {
       </section>
 
       <section className="px-4 py-24">
+        <div className="max-w-7xl mx-auto">
+          <AnimatedGroup
+            preset="blur-slide"
+            className="flex flex-col items-center justify-center gap-6 mb-16"
+          >
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white bg-white/5 backdrop-blur-sm">
+              <NotepadTextDashed className="w-3.5 h-3.5 text-zinc-400" />
+              <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-zinc-400 text-nowrap">
+                From Our Blog
+              </span>
+            </div>
+
+            <h2 className="font-bold text-3xl md:text-6xl text-center tracking-tighter leading-[1.1] max-w-4xl bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent px-4">
+              Insights on Building Better Analytics
+            </h2>
+
+            <p className="text-sm md:text-lg text-white/50 text-center max-w-2xl leading-relaxed px-4">
+              Learn from our journey building SessionStory and discover how to
+              scale your analytics infrastructure.
+            </p>
+          </AnimatedGroup>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Blog Post 1 */}
+            <a
+              href="https://medium.com/@chhavey/when-session-data-starts-scaling-8ebbd142a047"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block"
+            >
+              <div className="absolute -inset-1 bg-white/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+              <GridPatternCard className="rounded-3xl overflow-hidden h-full relative border-2 border-white/20 group-hover:border-white/40 transition-all duration-500">
+                <GridPatternCardBody className="p-8 flex flex-col h-full">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                      <span className="text-[10px] font-bold text-white/70 uppercase tracking-wider">
+                        Engineering
+                      </span>
+                    </div>
+                    <span className="text-xs text-white/40">5 min read</span>
+                  </div>
+
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-white/90 transition-colors duration-300">
+                    When Session Data Starts Scaling
+                  </h3>
+
+                  <p className="text-white/60 leading-relaxed mb-6 flex-grow">
+                    Discover the challenges and solutions we encountered when
+                    scaling session recording infrastructure to handle millions
+                    of events per day.
+                  </p>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white font-bold">
+                        C
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-white">
+                          Chhavey
+                        </p>
+                        <p className="text-xs text-white/40">
+                          Engineering Lead
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-white/60 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
+                      →
+                    </div>
+                  </div>
+                </GridPatternCardBody>
+              </GridPatternCard>
+            </a>
+
+            {/* Blog Post 2 */}
+            <a
+              href="https://medium.com/@chhavey/we-thought-analytics-told-us-everything-2bec0f70bfdd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block"
+            >
+              <div className="absolute -inset-1 bg-white/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+              <GridPatternCard className="rounded-3xl overflow-hidden h-full relative border-2 border-white/20 group-hover:border-white/40 transition-all duration-500">
+                <GridPatternCardBody className="p-8 flex flex-col h-full">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                      <span className="text-[10px] font-bold text-white/70 uppercase tracking-wider">
+                        Product Insights
+                      </span>
+                    </div>
+                    <span className="text-xs text-white/40">4 min read</span>
+                  </div>
+
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-white/90 transition-colors duration-300">
+                    We Thought Analytics Told Us Everything
+                  </h3>
+
+                  <p className="text-white/60 leading-relaxed mb-6 flex-grow">
+                    Why traditional analytics fall short and how session replay
+                    reveals the complete story behind user behavior and product
+                    decisions.
+                  </p>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white font-bold">
+                        C
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-white">
+                          Chhavey
+                        </p>
+                        <p className="text-xs text-white/40">
+                          Engineering Lead
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-white/60 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
+                      →
+                    </div>
+                  </div>
+                </GridPatternCardBody>
+              </GridPatternCard>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-24">
         <div className="max-w-6xl mx-auto">
           <LinesPatternCard className="rounded-[2.5rem] overflow-hidden group">
             <LinesPatternCardBody className="relative z-10 flex flex-col items-center text-center space-y-8 p-12 md:p-24">
