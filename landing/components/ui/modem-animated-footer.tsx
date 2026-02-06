@@ -61,7 +61,7 @@ export const Footer = ({
 
               {socialLinks.length > 0 && (
                 <div className="flex mb-8 mt-3 gap-4">
-                  {socialLinks.map((link, index) => (
+                  {/* {socialLinks.map((link, index) => (
                     <Link
                       key={index}
                       href={link.href}
@@ -74,7 +74,7 @@ export const Footer = ({
                       </div>
                       <span className="sr-only">{link.label}</span>
                     </Link>
-                  ))}
+                  ))} */}
                 </div>
               )}
 
