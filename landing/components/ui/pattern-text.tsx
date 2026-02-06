@@ -10,9 +10,9 @@ export function PatternText({
     <p
       data-shadow={text}
       className={cn(
-        "relative inline-block text-[10em] font-bold",
+        "relative inline-block text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[10rem] font-bold",
         "[text-shadow:0.02em_0.02em_0_--theme(--color-background)]",
-        "after:absolute after:top-2 after:left-2 after:-z-1 after:content-[attr(data-shadow)]",
+        "after:absolute after:top-[0.03em] after:left-[0.03em] after:-z-1 after:content-[attr(data-shadow)]",
         "after:bg-size-[0.05em_0.05em] after:bg-clip-text after:text-transparent after:text-shadow-none",
         "after:bg-[linear-gradient(45deg,transparent_45%,--theme(--color-foreground)_45%,--theme(--color-foreground)_55%,transparent_0)]",
         "after:animate-shadanim",
