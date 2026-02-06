@@ -324,19 +324,19 @@ export default function Login() {
         className="absolute inset-x-0 bottom-0 h-48 -z-10 bg-gradient-to-t from-background via-background/80 to-transparent"
       />
 
-      {/* Main content - split layout */}
-      <div className="h-full w-full flex items-center justify-center px-6 lg:px-12">
-        <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-16">
-          
-          {/* Left side - Title, subtitle and features */}
-          <div className="text-center lg:text-left order-2 lg:order-1 flex-shrink-0 space-y-6">
-            <div>
+      {/* Main content: on mobile title on top, cards below; on desktop side-by-side */}
+      <div className="h-full w-full flex items-center justify-center px-4 sm:px-6 lg:px-12 overflow-y-auto">
+        <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-16 py-6 pb-24 lg:py-0 lg:pb-0">
+          {/* Title block - first on mobile, left on desktop */}
+          <div className="text-center lg:text-left order-1 flex-shrink-0 space-y-4 lg:space-y-6">
+            <div className="hidden lg:block">
               <span className="inline-block rounded-full border border-border/60 bg-card/25 px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground/90 backdrop-blur-sm">
                 Session replay & analytics
               </span>
             </div>
-            <PatternText text="SessionStory" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl" />
-            <div className="text-center mx-auto max-w-lg min-h-[4.5rem] flex flex-col justify-center">
+            <PatternText text="SessionStory" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl" />
+            {/* Subtitle carousel - desktop only */}
+            <div className="hidden lg:block text-center mx-auto max-w-lg min-h-[4.5rem] flex flex-col justify-center">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.p
                   key={subtitleIndex}
@@ -364,8 +364,8 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Right side - Card Stack (extra height for dots + swipe hint) */}
-          <div className="relative w-full max-w-[340px] h-[480px] order-1 lg:order-2">
+          {/* Cards - below title on mobile, right on desktop */}
+          <div className="relative w-full max-w-[340px] h-[420px] sm:h-[460px] lg:h-[480px] order-2 flex-shrink-0">
             <AnimatePresence mode="popLayout">
               {displayCards.map((card) => {
                 const styles = getLayoutStyles(card.stackPosition);
@@ -427,7 +427,7 @@ export default function Login() {
 
             {/* Swipe hint - inside wrapper so not clipped */}
             <div className="absolute -bottom-10 left-1/2 -translate-x-1/2">
-              <span className="text-[10px] text-muted-foreground/50">Swipe to switch</span>
+              <span className="text-[10px] text-muted-foreground/70">Swipe to switch</span>
             </div>
           </div>
         </div>
