@@ -130,11 +130,11 @@ export const Footer = ({
               <NotepadTextDashed className="w-8 sm:w-10 md:w-14 h-8 sm:h-10 md:h-14 text-background drop-shadow-lg" />
             )} */}
             <Image
-              src="https://dashboard.sessionstory.co/assets/Logo1-BViLASYd.svg"
+              src="/logo.svg"
               alt="SessionStory Logo"
-              width={32}
-              height={32}
-              className=""
+              width={70}
+              height={70}
+              className="opacity-80"
             />
             {/* <span className="text-xl font-bold tracking-tight text-foreground">
                     SessionStory

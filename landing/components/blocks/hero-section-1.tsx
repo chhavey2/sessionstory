@@ -221,13 +221,13 @@ export function HeroSection() {
                   /> */}
                   <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-xl">
                     <iframe
-                      src="https://player.sessionstory.co/session_1770134604015_lq475lk"
+                      src="https://player.sessionstory.co/session_1770381765406_u0yfkk3"
                       className="absolute top-0 left-0 border-0 rounded-xl origin-top-left 
-                        w-[250%] h-[250%] scale-[0.4] 
-                        min-[480px]:w-[200%] min-[480px]:h-[200%] min-[480px]:scale-[0.5]
-                        sm:w-[142.85%] sm:h-[142.85%] sm:scale-[0.7] 
-                        md:w-[125%] md:h-[125%] md:scale-[0.8] 
-                        lg:w-full lg:h-full lg:scale-100"
+                        w-[400%] h-[400%] scale-[0.25] 
+                        min-[480px]:w-[333.33%] min-[480px]:h-[333.33%] min-[480px]:scale-[0.3]
+                        sm:w-[250%] sm:h-[250%] sm:scale-[0.4] 
+                        md:w-[200%] md:h-[200%] md:scale-[0.5] 
+                        lg:w-[142.85%] lg:h-[142.85%] lg:scale-[0.7]"
                       allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                       title="Session Replay Demo"
                     />
@@ -371,7 +371,7 @@ const Logo = ({ className }: { className?: string }) => {
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Image
-        src="https://dashboard.sessionstory.co/assets/Logo1-BViLASYd.svg"
+        src="/logo2.svg"
         alt="SessionStory Logo"
         width={32}
         height={32}
