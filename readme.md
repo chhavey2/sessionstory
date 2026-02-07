@@ -1,24 +1,25 @@
-# SessionStory 🎬
+# <img src="https://static.sessionstory.co/logo.svg" width="40" style="border-radius: 8px; vertical-align: middle;" alt="Logo" /> SessionStory
 
-**Understand user behavior through intelligent session replay and AI-powered insights**
+**Watch real user sessions as they happen. See every click, scroll, and interaction so you can reproduce bugs and understand exactly what went wrong.**
 
-[![Landing Page](https://img.shields.io/badge/Landing-sessionstory.co-blue)](https://sessionstory.co/)
-[![Dashboard](https://img.shields.io/badge/Dashboard-dashboard.sessionstory.co-green)](https://dashboard.sessionstory.co/)
+<!-- [![Landing Page](https://img.shields.io/badge/Landing-sessionstory.co-blue)](https://sessionstory.co/)
+[![Dashboard](https://img.shields.io/badge/Dashboard-dashboard.sessionstory.co-green)](https://dashboard.sessionstory.co/) -->
 
 ---
 
-## 🔗 Quick Links
+## Quick Links
 
 - **Landing Page**: [https://sessionstory.co/](https://sessionstory.co/)
 - **Dashboard**: [https://dashboard.sessionstory.co/](https://dashboard.sessionstory.co/)
   - **Demo Account**:
     - Email: `demo@gmail.com`
     - Password: `Demo#2026`
-- **Demo Video**: [Watch Demo](https://www.loom.com/share/bb6cf06ce9864102ad5d3edbf7c0bb8b) 🎥
+- **Demo Video**:
+  [![SessionStory Demo](https://static.sessionstory.co/thumbnail.png)](https://www.loom.com/share/bb6cf06ce9864102ad5d3edbf7c0bb8b)
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Problem Statement](#-problem-statement)
 - [Our Solution](#-our-solution)
@@ -31,35 +32,29 @@
 
 ---
 
-## 🎯 Problem Statement
+## Problem
 
-Modern web applications face critical challenges in understanding user behavior and debugging issues:
+Understanding users shouldn’t feel like guesswork.
 
-### Core Problems
+Most teams rely on analytics dashboards filled with numbers — page views, clicks, drop-offs. But numbers don’t explain what actually happened. When users struggle, abandon flows, or encounter bugs, the real story is missing.
 
-1. **Blind Spots in User Experience**
-   - Traditional analytics only show _what_ users did, not _how_ they did it
-   - Difficult to understand user frustration points and friction in the user journey
-   - No visibility into actual user interactions, clicks, scrolls, and navigation patterns
+### What’s broken today
 
-2. **Inefficient Bug Reproduction**
-   - Users report bugs that developers cannot reproduce
-   - "It works on my machine" syndrome wastes countless hours
-   - Missing context around user environment, actions leading to errors
+**Numbers without context**
+Analytics show where users drop off, but not why. Teams can’t see hesitation, confusion, or friction in the actual experience.
 
-3. **Data Overload Without Insights**
-   - Raw session data is overwhelming and time-consuming to analyze
-   - Teams lack actionable insights from user behavior data
-   - Manual analysis doesn't scale with growing user base
+**Bugs that can’t be reproduced**
+User reports often lack context. Developers spend hours trying to recreate issues without knowing the exact steps that led to the problem.
 
-4. **Privacy & Compliance Concerns**
-   - Need to balance detailed tracking with user privacy
-   - GDPR and privacy regulations require careful data handling
-   - Sensitive information must be protected in recordings
+**Too much data, not enough clarity**
+Session data can be overwhelming. Watching recordings manually doesn’t scale, and important insights get lost.
+
+**Privacy vs visibility**
+Teams need visibility into user behavior while still respecting privacy and protecting sensitive information
 
 ---
 
-## 💡 Our Solution
+## Our Solution
 
 **SessionStory** is an intelligent session replay platform that combines powerful recording capabilities with AI-driven insights to help teams understand and improve user experience.
 
@@ -91,7 +86,7 @@ Modern web applications face critical challenges in understanding user behavior 
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ### High-Level Architecture
 
@@ -165,30 +160,30 @@ Session Data → AI Service → LLM Provider → Insights Generation → Dashboa
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-### 🎥 Session Recording
+### Session Recording
 
 - **Automatic Capture**: Records user interactions, clicks, scrolls, and form inputs
 - **DOM Snapshots**: Captures complete page state and mutations
 - **Network Activity**: Tracks API calls and resource loading
 - **Console Logs**: Records browser console output for debugging
 
-### 📊 Analytics Dashboard
+### Analytics Dashboard
 
 - **Session List**: Browse and filter recorded sessions
 - **User Insights**: Understand user behavior patterns
 - **Performance Metrics**: Track page load times and interaction delays
 - **Error Tracking**: Identify and debug issues quickly
 
-### 🤖 AI-Powered Analysis
+### AI-Powered Analysis
 
 - **Automated Insights**: AI analyzes sessions to identify patterns
 - **Anomaly Detection**: Flags unusual user behavior or errors
 - **Recommendations**: Suggests UX improvements based on data
 - **Natural Language Queries**: Ask questions about user behavior
 
-### 🔒 Security & Privacy
+### Security & Privacy
 
 - **Secure Auth**: Robust user authentication system
 - **Data Encryption**: Encrypted data storage and transmission
@@ -237,7 +232,7 @@ sessionstory/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -289,7 +284,7 @@ sessionstory/
 
 ---
 
-## 🔄 How It Works
+## How It Works
 
 ### 1. Integration
 
@@ -319,7 +314,7 @@ Add the SessionStory SDK to your website:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -331,13 +326,13 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## 📄 License
+## License
 
 This project is proprietary software. All rights reserved.
 
 ---
 
-## 📞 Contact & Support
+## Contact & Support
 
 - **Website**: [https://sessionstory.co/](https://sessionstory.co/)
 - **Dashboard**: [https://dashboard.sessionstory.co/](https://dashboard.sessionstory.co/)
@@ -345,4 +340,4 @@ This project is proprietary software. All rights reserved.
 
 ---
 
-**Built with ❤️ by the SessionStory Team**
+**Built by the SessionStory Team**
