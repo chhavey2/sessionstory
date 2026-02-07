@@ -296,13 +296,7 @@ sessionstory/
 Add the SessionStory SDK to your website:
 
 ```javascript
-<script src="https://cdn.sessionstory.co/sdk.js"></script>
-<script>
-  SessionStory.init({
-    apiKey: 'your-api-key',
-    privacy: { maskAllInputs: true }
-  });
-</script>
+<script src="https://static.sessionstory.co/?id=<API_KEY>"></script>
 ```
 
 ### 2. Recording
