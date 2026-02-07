@@ -1,5 +1,5 @@
 
-# SessionStory <img src="https://static.sessionstory.co/logo.svg" width="20" style="border-radius: 10px; vertical-align: middle;" alt="Logo" /> 
+# SessionStory <img src="https://static.sessionstory.co/logo.svg" width="30" style="border-radius: 10px; vertical-align: middle;" alt="SessionStory Logo" /> 
 
 **Understand what users experienced — not just what the numbers say.**
 
@@ -184,12 +184,6 @@ Instead of trying to reproduce issues manually, teams can see exactly what the u
 ## License
 
 Proprietary software. All rights reserved.
-
-## Links
-
-- **Website**: https://sessionstory.co  
-- **Dashboard**: https://dashboard.sessionstory.co  
-
 
 ---
 
