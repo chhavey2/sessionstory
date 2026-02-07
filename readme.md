@@ -14,7 +14,7 @@
   - **Demo Account**:
     - Email: `demo@gmail.com`
     - Password: `Demo#2026`
-- **Demo Video**: _Coming Soon_ 🎥
+- **Demo Video**: [Watch Demo](https://www.loom.com/share/bb6cf06ce9864102ad5d3edbf7c0bb8b) 🎥
 
 ---
 
