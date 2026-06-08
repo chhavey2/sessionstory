@@ -44,6 +44,9 @@ app.use("/", routes);
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "API is healthy" });
 });
+app.get("/test", (req, res) => {
+  res.status(200).json({ status: "ok", message: "API test" });
+});
 
 
 const connectDB = async () => {
