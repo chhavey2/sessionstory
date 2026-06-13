@@ -40,7 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <Script src="https://static.sessionstory.co/index.js?id=6985d64d0fb0fa3571cafc04" />
+        <Script src="https://static.sessionstory.co/session-recorder.umd.js?id=6985d64d0fb0fa3571cafc04" />
       </body>
     </html>
   );
