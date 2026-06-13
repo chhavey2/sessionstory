@@ -6,6 +6,7 @@ import routes from "./src/routes/routes.js";
 import { swaggerDocs } from "./src/swagger.js";
 import { errorMiddleWare } from "./src/middleware/error.middleWare.js";
 import requestIp from "request-ip";
+import "./src/workers/session.worker.js";
 
 dotenv.config();
 

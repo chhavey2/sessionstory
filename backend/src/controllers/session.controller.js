@@ -1,4 +1,5 @@
-import { getSession, hitSession, getSessionsByUser, getSessionsByUser2 } from "../services/session.service.js";
+import { getSession, getSessionsByUser, getSessionsByUser2 } from "../services/session.service.js";
+import { addSessionJob } from "../services/queue.service.js";
 
 // @desc    Get all sessions for a user
 // @route   GET /api/session
@@ -45,8 +46,8 @@ export const getSessionById = async (req, res) => {
   }
 };
 
-// @desc    Record session events
-// @route   POST /api/sessions/record/:fp
+// @desc    Record session events (Queued)
+// @route   POST /api/sessions/record/:userId
 // @access  Public
 export const recordSession = async (req, res) => {
   try {
@@ -59,15 +60,23 @@ export const recordSession = async (req, res) => {
       return res.status(400).json({ message: "Invalid request" });
     }
 
-    const session = await hitSession(metadata.sessionId, fp, userId, events, ip, metadata.url);
+    // Push the heavy database/compression work to the background queue
+    await addSessionJob({
+      sessionId: metadata.sessionId,
+      fp,
+      userId,
+      events,
+      ip,
+      url: metadata.url
+    });
 
-    if (!session) {
-      return res.status(500).json({ message: "Error recording session" });
-    }
-
-    return res.status(200).json(session);
+    // Respond immediately to the client
+    return res.status(202).json({ 
+      message: "Session recording queued",
+      sessionId: metadata.sessionId
+    });
   } catch (error) {
     console.error("Error in recordSession:", error);
-    return res.status(500).json({ message: "Error recording session" });
+    return res.status(500).json({ message: "Error queueing session" });
   }
 };
