@@ -1,5 +1,5 @@
 import express from "express";
-import { getSessionById, getSessions, getUserSessions, recordSession } from "../controllers/session.controller.js";
+import { getSessionById, getSessions, getUserSessions, recordSession, getHeatmapData } from "../controllers/session.controller.js";
 import { protect } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
@@ -19,6 +19,26 @@ const router = express.Router();
  *         description: Not authorized
  */
 router.get("/", protect, getSessions);
+
+/**
+ * @swagger
+ * /session/heatmap:
+ *   get:
+ *     summary: Get aggregated heatmap data points
+ *     tags: [Sessions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: url
+ *         schema:
+ *           type: string
+ *         description: Optional URL to filter by
+ *     responses:
+ *       200:
+ *         description: Heatmap data retrieved
+ */
+router.get("/heatmap", protect, getHeatmapData);
 
 /**
  * @swagger

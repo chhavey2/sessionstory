@@ -136,3 +136,46 @@ export async function getSessionsByUser2(userId) {
     throw error;
   }
 }
+
+export async function getHeatmapPoints(userId, url) {
+  try {
+    const query = { user: userId };
+    if (url) {
+      query.url = url;
+    }
+    
+    // Find sessions
+    const sessions = await Session.find(query);
+    const allPoints = [];
+
+    // Extract mouse movements
+    for (const session of sessions) {
+      for (const item of session.events) {
+        if (typeof item === "object" && item !== null) {
+          let batch = item;
+          if (Buffer.isBuffer(item) || item.buffer || item._bsontype === 'Binary') {
+            batch = await decompress(item);
+          }
+          
+          const events = Array.isArray(batch) ? batch : [batch];
+          
+          for (const event of events) {
+            // rrweb IncrementalSnapshot = 3
+            if (event.type === 3 && event.data && event.data.source === 1 && event.data.positions) {
+              // MouseMove source = 1
+              for (const pos of event.data.positions) {
+                // simpleheat expects [x, y, intensity]
+                allPoints.push([pos.x, pos.y, 1]);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return allPoints;
+  } catch (error) {
+    console.error("Error in getHeatmapPoints:", error);
+    throw error;
+  }
+}

@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Sessions from './pages/Sessions';
 import Setup from './pages/Setup';
+import Heatmaps from './pages/Heatmaps';
 function App() {
   return (
     <AuthProvider>
@@ -24,6 +25,7 @@ function App() {
           >
             <Route index element={<Dashboard />} />
             <Route path="sessions" element={<Sessions />} />
+            <Route path="heatmaps" element={<Heatmaps />} />
             <Route path="setup" element={<Setup />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />

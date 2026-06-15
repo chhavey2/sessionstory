@@ -1,4 +1,4 @@
-import { getSession, getSessionsByUser, getSessionsByUser2 } from "../services/session.service.js";
+import { getSession, getSessionsByUser, getSessionsByUser2, getHeatmapPoints } from "../services/session.service.js";
 import { addSessionJob } from "../services/queue.service.js";
 
 // @desc    Get all sessions for a user
@@ -78,5 +78,21 @@ export const recordSession = async (req, res) => {
   } catch (error) {
     console.error("Error in recordSession:", error);
     return res.status(500).json({ message: "Error queueing session" });
+  }
+};
+
+// @desc    Get heatmap data points
+// @route   GET /api/session/heatmap
+// @access  Private
+export const getHeatmapData = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { url } = req.query;
+
+    const points = await getHeatmapPoints(userId, url);
+    return res.status(200).json(points);
+  } catch (error) {
+    console.error("Error in getHeatmapData:", error);
+    return res.status(500).json({ message: "Error getting heatmap data" });
   }
 };

@@ -22,6 +22,12 @@ const SessionsIcon = (props) => (
   </svg>
 );
 
+const HeatmapsIcon = (props) => (
+  <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+  </svg>
+);
+
 const SetupIcon = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -36,7 +42,7 @@ const LogoutIcon = (props) => (
   </svg>
 );
 
-const PAGE_ORDER = ['/', '/sessions', '/setup'];
+const PAGE_ORDER = ['/', '/sessions', '/heatmaps', '/setup'];
 
 export default function Layout() {
   const { logout } = useAuth();
@@ -74,7 +80,7 @@ export default function Layout() {
   };
 
   const handleNavChange = (index) => {
-    if (index === 3) {
+    if (index === 4) {
       handleLogout();
       return;
     }
@@ -89,6 +95,7 @@ export default function Layout() {
   const navItems = [
     { id: 'insights', icon: <InsightsIcon />, label: 'Insights' },
     { id: 'sessions', icon: <SessionsIcon />, label: 'Sessions' },
+    { id: 'heatmaps', icon: <HeatmapsIcon />, label: 'Heatmaps' },
     { id: 'setup', icon: <SetupIcon />, label: 'Setup' },
     { id: 'logout', icon: <LogoutIcon />, label: 'Logout' },
   ];
@@ -154,7 +161,7 @@ export default function Layout() {
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
         <LimelightNav
           items={navItems}
-          activeIndex={currentIndex < 3 ? currentIndex : -1}
+          activeIndex={currentIndex < 4 ? currentIndex : -1}
           onTabChange={handleNavChange}
           className="shadow-lg shadow-zinc-950/30 border-border bg-card/65 backdrop-blur-xl"
         />
