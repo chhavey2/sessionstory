@@ -100,9 +100,7 @@ export async function getSessionsByUser2(userId) {
       { 
         $match: { 
           user: new mongoose.Types.ObjectId(userId),
-          $expr: { 
-            $gt: [{ $ifNull: ["$eventCount", { $size: "$events" }] }, 5] 
-          }
+          eventCount: { $gt: 5 }
         } 
       },
       { $sort: { createdAt: -1 } },
@@ -121,7 +119,7 @@ export async function getSessionsByUser2(userId) {
           url: 1,
           createdAt: 1,
           updatedAt: 1,
-          eventsLength: { $ifNull: ["$eventCount", { $size: "$events" }] },
+          eventsLength: "$eventCount",
           visitor: {
             _id: "$visitor._id",
             fp: "$visitor.fp",
