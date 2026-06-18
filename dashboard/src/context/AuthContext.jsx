@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import api from '../services/api';
 
 const AuthContext = createContext(null);
+console.log("testing git share");
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
